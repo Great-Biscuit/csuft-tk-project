@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
@@ -40,6 +42,7 @@ public class UserImpl implements UserService {
     private String domain;
 
     @Override
+    @Transactional(isolation = Isolation.REPEATABLE_READ)
     public Map<String, Object> register(User user) {
         Map<String, Object> map = new HashMap<>();
 
@@ -76,7 +79,7 @@ public class UserImpl implements UserService {
         //激活邮件
         Context context = new Context();
         context.setVariable("email", user.getEmail());
-        String url = domain + "/activation/" + user.getId() + "/" + user.getPassword();
+        String url = domain + "/activation/" + userMapper.selectByName(user.getUsername()).getId() + "/" + user.getPassword();
         context.setVariable("url", url);
         String content = templateEngine.process("/mail/activation", context);
         mailClient.sendMail(user.getEmail(), "激活账号", content);

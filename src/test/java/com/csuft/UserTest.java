@@ -31,9 +31,9 @@ public class UserTest {
     @Test
     public void insertUser() {
         User user = new User();
-        user.setUsername("test001");
+        user.setUsername("test004");
         user.setPassword("123456");
-        user.setEmail("888888@qq.com");
+        user.setEmail("1@qq.com");
 
         //进行注册用户
         Map<String, Object> map = userService.register(user);
