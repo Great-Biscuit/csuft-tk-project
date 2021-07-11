@@ -398,18 +398,20 @@ UNLOCK TABLES;
 DROP TABLE IF EXISTS `t_user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
-CREATE TABLE `t_user` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `birthday` date DEFAULT NULL,
-  `gender` varchar(1) DEFAULT NULL,
-  `username` varchar(32) DEFAULT NULL,
-  `password` varchar(256) DEFAULT NULL,
-  `remark` varchar(32) DEFAULT NULL,
-  `station` varchar(1) DEFAULT NULL,
-  `telephone` varchar(11) DEFAULT NULL,
-  `email` varchar(30) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+CREATE TABLE `t_user`(
+                         `id`        int(11) NOT NULL AUTO_INCREMENT,
+                         `birthday`  date         DEFAULT NULL,
+                         `gender`    varchar(1)   DEFAULT NULL,
+                         `username`  varchar(32)  DEFAULT NULL,
+                         `password`  varchar(256) DEFAULT NULL,
+                         `remark`    varchar(32)  DEFAULT NULL,
+                         `station`   int(11)      DEFAULT NULL,
+                         `telephone` varchar(11)  DEFAULT NULL,
+                         `email`     varchar(30)  DEFAULT NULL,
+                         PRIMARY KEY (`id`)
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 5
+  DEFAULT CHARSET = utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -417,9 +419,15 @@ CREATE TABLE `t_user` (
 --
 
 LOCK TABLES `t_user` WRITE;
-/*!40000 ALTER TABLE `t_user` DISABLE KEYS */;
-INSERT INTO `t_user` VALUES (1,NULL,NULL,'admin','e10adc3949ba59abbe56e057f20f883e',NULL,NULL,NULL,NULL),(2,NULL,NULL,'xiaoming','e10adc3949ba59abbe56e057f20f883e',NULL,NULL,NULL,NULL),(3,NULL,NULL,'test','e10adc3949ba59abbe56e057f20f883e',NULL,NULL,NULL,NULL);
-/*!40000 ALTER TABLE `t_user` ENABLE KEYS */;
+/*!40000 ALTER TABLE `t_user`
+    DISABLE KEYS */;
+INSERT INTO `t_user`
+VALUES (1, NULL, NULL, 'admin', 'e10adc3949ba59abbe56e057f20f883e', NULL, 1, NULL, 'admin@tk.com'),
+       (2, NULL, NULL, 'xiaoming', 'e10adc3949ba59abbe56e057f20f883e', NULL, 1, NULL, 'xiaoming@tk.com'),
+       (3, NULL, NULL, 'test', 'e10adc3949ba59abbe56e057f20f883e', NULL, 1, NULL, 'test@tk.com'),
+       (4, NULL, NULL, 'test001', 'e10adc3949ba59abbe56e057f20f883e', NULL, 0, NULL, '888888@qq.com');
+/*!40000 ALTER TABLE `t_user`
+    ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -427,8 +435,8 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `t_user_role`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!40101 SET @saved_cs_client = @@character_set_client */;
+SET character_set_client = utf8mb4;
 CREATE TABLE `t_user_role` (
   `user_id` int(11) NOT NULL,
   `role_id` int(11) NOT NULL,
@@ -458,4 +466,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-07-11 14:08:33
+-- Dump completed on 2021-07-11 17:46:53

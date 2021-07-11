@@ -44,6 +44,7 @@ public class MessageConst {
     public static final String EDIT_MEMBER_SUCCESS = "编辑会员成功";
     public static final String TELEPHONE_VALIDATECODE_NOTNULL = "手机号和验证码都不能为空";
     public static final String LOGIN_SUCCESS = "登录成功";
+    public static final String LOGIN_FAIL = "账号或密码错误";
     public static final String VALIDATECODE_ERROR = "验证码输入错误";
     public static final String QUERY_ORDER_SUCCESS = "查询预约信息成功";
     public static final String QUERY_ORDER_FAIL = "查询预约信息失败";
@@ -69,4 +70,32 @@ public class MessageConst {
     public static final String GET_BUSINESS_REPORT_FAIL = "获取运营统计数据失败";
     public static final String GET_SETMEAL_LIST_SUCCESS = "查询套餐列表数据成功";
     public static final String GET_SETMEAL_LIST_FAIL = "查询套餐列表数据失败";
+
+    /**
+     * 激活成功
+     */
+    public static final int ACTIVATION_SUCCESS = 0;
+
+    /**
+     * 重复激活
+     */
+    public static final int ACTIVATION_REPEAT = 1;
+
+    /**
+     * 激活失败
+     */
+    public static final int ACTIVATION_FAILURE = 2;
+
+    public static final String ACCOUNT_NOT_ACTIVATED = "账号未激活";
+
+    /**
+     * 默认状态登录凭证超时时间
+     */
+    public static final int DEFAULT_EXPIRED_SECONDS = 3600 * 12;//12小时
+
+
+    /**
+     * 记住我状态登录凭证超时时间
+     */
+    public static final int REMEMBER_EXPIRED_SECONDS = 3600 * 24 * 100;//100天
 }
