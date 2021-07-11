@@ -17,6 +17,7 @@
         <script src="../plugins/element-ui/lib/index.js"></script>
         <script type="text/javascript" src="../js/jquery.min.js"></script>
         <script src="../js/axios-0.18.0.js"></script>
+        <script src="../js/common.js"></script>
         <style>
             .datatable {
                 position: relative;
@@ -269,7 +270,6 @@
                     total:100,
                     queryString:null,
                 },
-                backend_url:"http://127.0.0.1:8080",
                 dataList: [],//列表数据
                 formData: {},//表单数据
                 tableData:[],//新增和编辑表单中对应的检查项列表数据
@@ -280,6 +280,15 @@
             created() {
                 this.findPage();
             },
+            watch: {
+                "pagination.queryString": {
+                    handler(val, oldVal) {
+                        if (oldVal && !val)  {
+                            this.findPage();
+                        }
+                    }
+                }
+            },
             methods: {
                 //编辑
                 handleEdit() {
@@ -287,7 +296,7 @@
                 },
                 //添加
                 handleAdd () {
-                    axios.post(this.backend_url+'/checkGroup/addCheckGroup?checkitemIds='+this.checkitemIds, this.formData).then(res => {
+                    axios.post(BACK_END +'/checkGroup/addCheckGroup?checkitemIds='+this.checkitemIds, this.formData).then(res => {
                         if (res && res.data && res.data.flag) {
                             this.$message.success(res.data.message);
                         } else {
@@ -305,7 +314,7 @@
                         pageSize: this.pagination.pageSize,
                         queryString: this.pagination.queryString
                     }
-                    axios.post(this.backend_url+'/checkGroup/findPage', params).then(res => {
+                    axios.post(BACK_END +'/checkGroup/findPage', params).then(res => {
                         if (res && res.data) {
                             this.dataList = res.data.rows;
                             this.pagination.total = res.data.total;
@@ -325,7 +334,7 @@
                     //新增窗口可见
                     this.dialogFormVisible = true;
                     //发送请求,获取检查项列表,处理返回数据
-                    axios.get(this.backend_url + '/checkItem/findList').then(res => {
+                    axios.get(BACK_END + '/checkItem/findList').then(res => {
                         if (res && res.data) {
                             this.tableData = res.data.data;
                         }
