@@ -52,20 +52,20 @@ public class LoginController {
     /**
      * 注册
      *
-     * @param model
-     * @param user  用户(必须有用户名、密码、邮箱,其他的可有可无)
+     * @param user 用户(必须有用户名、密码、邮箱,其他的可有可无)
      * @return
      */
     @PostMapping(path = "/register")
-    public String register(Model model, User user) {
+    @ResponseBody
+    public String register(User user) {
         Map<String, Object> map = userService.register(user);
         if (map == null || map.isEmpty()) {
-            model.addAttribute("msg", "注册成功,我们已经向您的邮箱发送了一封激活邮件,请尽快激活!");
-            model.addAttribute("target", "/index");
-            return "/operate-result";
+            //注册成功
+            return ResultJSON.getJSONString(200, true);
         } else {
-            model.addAttribute("Message", map.get("Message"));
-            return "redirect:/pages/register.html";
+            Map<String, Object> err = new HashMap<>();
+            err.put("error", map.get("Message"));
+            return ResultJSON.getJSONString(200, false, err);
         }
     }
 
