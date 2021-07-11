@@ -15,7 +15,7 @@ public class User implements Serializable{
     private String username; // 用户名，唯一
     private String password; // 密码
     private String remark; // 备注
-    private String station; // 状态
+    private int station; // 状态
     private String telephone; // 联系电话
     private String email;//邮箱
     private Set<Role> roles = new HashSet<Role>(0);//对应角色集合
@@ -68,11 +68,11 @@ public class User implements Serializable{
         this.remark = remark;
     }
 
-    public String getStation() {
+    public int getStation() {
         return station;
     }
 
-    public void setStation(String station) {
+    public void setStation(int station) {
         this.station = station;
     }
 
@@ -84,6 +84,14 @@ public class User implements Serializable{
         this.telephone = telephone;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public Set<Role> getRoles() {
         return roles;
     }
@@ -91,4 +99,6 @@ public class User implements Serializable{
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
+
+
 }
