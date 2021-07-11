@@ -4,6 +4,7 @@ import com.csuft.common.MessageConst;
 import com.csuft.entity.User;
 import com.csuft.service.UserService;
 import com.csuft.util.RedisKeyUtil;
+import com.csuft.util.ResultJSON;
 import com.csuft.util.UUIDUtil;
 import com.google.code.kaptcha.Producer;
 import org.apache.commons.lang3.StringUtils;
@@ -11,10 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.Cookie;
@@ -22,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -42,12 +41,12 @@ public class LoginController {
 
     @GetMapping(path = "/register")
     public String getRegisterPage() {
-        return "/pages/register.html";
+        return "redirect:/pages/register";
     }
 
     @GetMapping(path = "/login")
     public String getLoginPage() {
-        return "/pages/login.html";
+        return "redirect:/pages/login.html";
     }
 
     /**
@@ -66,7 +65,7 @@ public class LoginController {
             return "/operate-result";
         } else {
             model.addAttribute("Message", map.get("Message"));
-            return "/pages/register.html";
+            return "redirect:/pages/register.html";
         }
     }
 
@@ -107,9 +106,6 @@ public class LoginController {
         String text = kaptchaProducer.createText();
         BufferedImage image = kaptchaProducer.createImage(text);
 
-        //将验证码存入Session
-        //session.setAttribute("kaptcha", text);
-
         //验证码的归属者—-》颁发凭证（因为没登录）
         String kaptchaOwner = UUIDUtil.generateUUID();
         Cookie cookie = new Cookie("kaptchaOwner", kaptchaOwner);
@@ -135,18 +131,26 @@ public class LoginController {
     /**
      * 登录
      *
-     * @param username     用户名
-     * @param password     密码
-     * @param code         验证码
-     * @param rememberMe   记住我
-     * @param model
+     * @param messageMap
      * @param response
      * @param kaptchaOwner
      * @return
      */
     @PostMapping("/login")
-    public String login(String username, String password, String code, boolean rememberMe,
-                        Model model, HttpServletResponse response, @CookieValue("kaptchaOwner") String kaptchaOwner) {
+    @ResponseBody
+    public String login(@RequestBody Map<String, Object> messageMap,
+                        HttpServletResponse response,
+                        @CookieValue("kaptchaOwner") String kaptchaOwner) {
+
+        String username = (String) messageMap.get("username");
+        String password = (String) messageMap.get("password");
+        String code = (String) messageMap.get("code");
+        boolean rememberMe;
+        if (messageMap.get("rememberMe") == null) {
+            rememberMe = false;
+        } else {
+            rememberMe = true;
+        }
 
         String kaptcha = null;
         //取验证码
@@ -156,21 +160,24 @@ public class LoginController {
         }
         //检测验证码
         if (StringUtils.isBlank(kaptcha) || StringUtils.isBlank(code) || !kaptcha.equalsIgnoreCase(code)) {
-            model.addAttribute("Message", "验证码不正确!");
-            return "/pages/login.html";
+            Map<String, Object> err = new HashMap<>();
+            err.put("error", "验证码错误!");
+            return ResultJSON.getJSONString(200, false, err);
         }
         //检查账号密码
         int expiredSeconds = rememberMe ? MessageConst.REMEMBER_EXPIRED_SECONDS : MessageConst.DEFAULT_EXPIRED_SECONDS;
         Map<String, Object> map = userService.login(username, password, expiredSeconds);
+
         if (map.containsKey("ticket")) {
             Cookie cookie = new Cookie("ticket", map.get("ticket").toString());
             cookie.setPath("/");
             cookie.setMaxAge(expiredSeconds);
             response.addCookie(cookie);
-            return "redirect:/pages/login.html";
+            return ResultJSON.getJSONString(200, true);
         } else {
-            model.addAttribute("Message", map.get("Message"));
-            return "/pages/login.html";
+            Map<String, Object> err = new HashMap<>();
+            err.put("error", map.get("Message"));
+            return ResultJSON.getJSONString(200, false, err);
         }
     }
 
@@ -183,7 +190,7 @@ public class LoginController {
     @GetMapping("loginOut")
     public String loginOut(@CookieValue("ticket") String ticket) {
         userService.loginOut(ticket);
-        return "redirect:/pages/login.html";
+        return ResultJSON.getJSONString(302);
     }
 
 }
