@@ -17,6 +17,7 @@ public class User implements Serializable{
     private String remark; // 备注
     private String station; // 状态
     private String telephone; // 联系电话
+    private String email;//邮箱
     private Set<Role> roles = new HashSet<Role>(0);//对应角色集合
 
     public Integer getId() {
