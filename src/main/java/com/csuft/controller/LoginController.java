@@ -57,7 +57,7 @@ public class LoginController {
      */
     @PostMapping(path = "/register")
     @ResponseBody
-    public String register(User user) {
+    public String register(@RequestBody User user) {
         Map<String, Object> map = userService.register(user);
         if (map == null || map.isEmpty()) {
             //注册成功
