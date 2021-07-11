@@ -15,6 +15,7 @@
     <style type="text/css">
     .el-main{
         position: absolute;
+        overflow: hidden;
         top: 70px;
         bottom: 0px;
         left: 200px;
@@ -51,26 +52,24 @@
                     </div>
                 </nav>
             </el-header>
-            <el-container style="display: flex;">
-                <el-aside style="width: 200px;">
-                    <el-menu>
-                        <el-submenu v-for="menu in menuList" :index="menu.path">
-                            <template slot="title">
-                                <i class="fa" :class="menu.icon"></i>
-                                {{menu.title}}
-                            </template>
-                            <template v-for="child in menu.children">
-                                <el-menu-item :index="child.path">
-                                    <a :href="child.linkUrl" target="right">{{child.title}}</a>
-                                </el-menu-item>
-                            </template>
-                        </el-submenu>
-                    </el-menu>
-                </el-aside>
-                <el-container style="flex: 1;">
-                    <iframe name="right" class="el-main" src="./checkgroup.html" width="100%" height="90%" frameborder="0"></iframe>
-                </el-container>
-            </el-container>
+            <el-aside style="width: 200px;">
+                <el-menu>
+                    <el-submenu v-for="menu in menuList" :index="menu.path">
+                        <template slot="title">
+                            <i class="fa" :class="menu.icon"></i>
+                            {{menu.title}}
+                        </template>
+                        <template v-for="child in menu.children">
+                            <el-menu-item :index="child.path">
+                                <a :href="child.linkUrl" target="right">{{child.title}}</a>
+                            </el-menu-item>
+                        </template>
+                    </el-submenu>
+                </el-menu>
+            </el-aside>
+            <el-main>
+                    <iframe name="right" src="checkgroup.html" width="100%" height="100%" frameborder="0"></iframe>
+            </el-main>
         </el-container>
     </div>
 </body>
@@ -178,10 +177,6 @@
                 }
             ]
         }
-    });
-    $(function() {
-            var wd = 200;
-            $(".el-main").css('width', $('body').width() - wd + 'px');
     });
 </script>
 </html>
