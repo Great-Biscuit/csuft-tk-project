@@ -43,4 +43,6 @@ public interface UserService {
     LoginTicket findLoginTicket(String ticket);
 
     User findUserById(int userId);
+
+    Map<String, Object> updatePassword(Integer id, String oldPassword, String newPassword);
 }

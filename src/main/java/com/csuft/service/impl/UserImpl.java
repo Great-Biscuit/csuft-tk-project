@@ -174,6 +174,26 @@ public class UserImpl implements UserService {
         return user;
     }
 
+    @Override
+    public Map<String, Object> updatePassword(Integer userId, String oldPassword, String newPassword) {
+        Map<String, Object> map = new HashMap<>();
+        User user = userMapper.selectById(userId);
+        oldPassword = MD5Util.md5(oldPassword);
+        //旧密码不正确
+        if (!user.getPassword().equals(oldPassword)) {
+            map.put("error", "原密码错误!");
+            return map;
+        }
+        newPassword = MD5Util.md5(newPassword);
+        int t = userMapper.updatePassword(userId, newPassword);
+        if (t == 0) {
+            map.put("error", "更新密码出错!");
+            return map;
+        }
+        clearCache(userId);
+        return map;
+    }
+
     //使用Redis优化
     //1.优先从缓存里查
     public User getCache(int userId) {

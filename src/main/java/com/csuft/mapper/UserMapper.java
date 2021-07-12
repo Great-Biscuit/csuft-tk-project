@@ -18,4 +18,12 @@ public interface UserMapper {
      * @param s
      */
     void updateStation(int userId, int s);
+
+    /**
+     * 修改密码
+     *
+     * @param userId
+     * @param newPassword
+     */
+    int updatePassword(Integer userId, String newPassword);
 }
