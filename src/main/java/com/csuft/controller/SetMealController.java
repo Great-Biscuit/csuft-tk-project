@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -22,7 +23,6 @@ public class SetMealController {
 
     @Autowired
     private SetMealService setMealService;
-
 
     @LoginRequired
     @RequestMapping("/findPage")
@@ -73,7 +73,6 @@ public class SetMealController {
             return new Result(false,MessageConst.PIC_UPLOAD_FAIL);
         }
     }
-
     //添加套餐数据
     @LoginRequired
     @RequestMapping("/addSetmeal")
@@ -84,6 +83,45 @@ public class SetMealController {
         }catch (Exception e){
             e.printStackTrace();
             return new Result(false,MessageConst.ADD_SETMEAL_FAIL);
+        }
+    }
+
+    // 根据套餐 ID 查询套餐对象
+    @LoginRequired
+    @RequestMapping("/findSetmeal")
+    public Result findSetmeal(Integer id) {
+        try {
+            Setmeal res = setMealService.findSetMeal(id);
+            return new Result(true, MessageConst.QUERY_SETMEAL_SUCCESS, res);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Result(false, MessageConst.QUERY_SETMEAL_FAIL);
+        }
+    }
+
+    // 查询套餐关联的检查组ID
+    @LoginRequired
+    @RequestMapping("/findCheckGroupId")
+    public Result findCheckGroupId(Integer id) {
+        try {
+            List<Integer> list = setMealService.findCheckGroupId(id);
+            return new Result(true, MessageConst.QUERY_SETMEAL_CHECKGROUP_ID_SUCCESS, list);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Result(false, MessageConst.QUERY_SETMEAL_CHECKGROUP_ID_FIAL);
+        }
+    }
+
+    // 套餐数据编辑功能实现
+    @LoginRequired
+    @RequestMapping("/editSetMeal")
+    public Result editSetMeal(Setmeal setmeal, Integer[] setmealIds) {
+        try {
+            setMealService.editSetMeal(setmeal, setmealIds);
+            return new Result(true, MessageConst.EDIT_SETMEAL_SUCCESS);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Result(false, MessageConst.EDIT_SETMEAL_FAIL);
         }
     }
 }

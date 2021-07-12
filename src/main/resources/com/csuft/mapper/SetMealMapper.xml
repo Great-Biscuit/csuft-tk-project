@@ -30,4 +30,22 @@
     <insert id="addSetmealAndCheckGroupId" parameterType="map">
         insert into t_setmeal_checkgroup values (#{setmeal_id},#{checkgroup_id});
     </insert>
+
+    <select id="findSetMeal" parameterType="int" resultType="setmeal">
+        select * from t_setmeal where id = #{id}
+    </select>
+
+    <select id="findCheckGroupId" resultType="int">
+        select checkgroup_id from t_setmeal_checkgroup where setmeal_id = #{id}
+    </select>
+
+    <!--修改检查组的数据-->
+    <update id="editSetMeal" parameterType="checkGroup">
+        update t_setmeal set code = #{code},name = #{name},helpCode = #{helpCode},sex= #{sex},remark = #{remark},attention = #{attention},age=#{age}, price=#{price}, img=#{img}
+        where id = #{id}
+    </update>
+    <!--删除中间表的关联关系-->
+    <delete id="delSetMealAndCheckGroup" parameterType="int">
+        delete from t_setmeal_checkgroup where setmeal_id = #{id}
+    </delete>
 </mapper>

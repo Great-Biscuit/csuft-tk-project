@@ -448,11 +448,41 @@
                 },
                 //弹出编辑窗口
                 handleUpdate(row){
-                    this.dialogFormVisible4Edit = true;
+                    this.dialogFormEdit4Visible = true;
+                    axios(this.backend_url+"/setmeal/findSetmeal?id="+row.id).then(res=>{
+                        if(res.data.flag){
+                            this.formData  = res.data.data;
+                            this.imageUrl = res.data.data.img;
+                            axios.get(this.backend_url + "/checkGroup/findList").then(res=>{
+                                if(res.data.flag){
+                                    this.tableData = res.data.data;
+                                    axios.get(BACK_END+"/setmeal/findCheckGroupId?id="+row.id).then(res=>{
+                                        if(res.data.flag){
+                                            this.checkgroupIds = res.data.data;
+                                        }
+                                    });
+                                }else{
+                                    this.$message.error(res.data.message);
+                                }
+                            });
+                        }else{
+                            this.$message.error(res.data.message);
+                        }
+                    });
                 },
                 //编辑数据
                 handleEdit(){
-                   
+                    axios.post(BACK_END+"/setmeal/editSetMeal?setmealIds="+this.checkgroupIds,this.formData).then(res=>{
+                        if(res.data.flag){
+                            this.$message.success(res.data.message);
+                        } else{
+                            this.$message.error(res.data.message);
+                        }
+
+                    }).finally(()=>{
+                        this.dialogFormVisible4Edit = false;
+                        this.findPage();
+                    });
                 },
                 //切换页码
                 handleCurrentChange(currentPage) {

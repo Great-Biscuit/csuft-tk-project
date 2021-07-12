@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -46,6 +47,28 @@ public class SetMealServiceImpl implements SetMealService {
             map.put("setmeal_id",setmeal.getId());
             map.put("checkgroup_id",id);
 
+            setMealMapper.addSetmealAndCheckGroupId(map);
+        }
+    }
+
+    @Override
+    public Setmeal findSetMeal(Integer id) {
+        return setMealMapper.findSetMeal(id);
+    }
+
+    @Override
+    public List<Integer> findCheckGroupId(Integer id) {
+        return setMealMapper.findCheckGroupId(id);
+    }
+
+    @Override
+    public void editSetMeal(Setmeal setmeal, Integer[] setmealIds) {
+        setMealMapper.editSetMeal(setmeal);
+        setMealMapper.delSetMealAndCheckGroup(setmeal.getId());
+        for (Integer id:setmealIds) {
+            Map<String,Integer> map  = new HashMap();
+            map.put("setmeal_id",setmeal.getId());
+            map.put("checkgroup_id",id);
             setMealMapper.addSetmealAndCheckGroupId(map);
         }
     }

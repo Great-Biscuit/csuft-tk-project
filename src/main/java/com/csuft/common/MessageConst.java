@@ -15,6 +15,8 @@ public class MessageConst {
     public static final String ADD_CHECKITEM_FAIL = "新增检查项失败";
     public static final String EDIT_CHECKITEM_FAIL = "编辑检查项失败";
     public static final String EDIT_CHECKITEM_SUCCESS = "编辑检查项成功";
+    public static final String EDIT_SETMEAL_FAIL = "编辑套餐失败";
+    public static final String EDIT_SETMEAL_SUCCESS = "编辑套餐成功";
     public static final String QUERY_CHECKITEM_SUCCESS = "查询检查项成功";
     public static final String QUERY_CHECKITEM_FAIL = "查询检查项失败";
     public static final String UPLOAD_SUCCESS = "上传成功";
@@ -72,6 +74,8 @@ public class MessageConst {
     public static final String GET_SETMEAL_LIST_FAIL = "查询套餐列表数据失败";
     public static final String QUERY_CHECKGROUP_CHECKITEM_ID_SUCCESS = "查询检查组关联的id成功";
     public static final String QUERY_CHECKGROUP_CHECKITEM_ID_FAIL = "查询检查组关联的id失败";
+    public static final String QUERY_SETMEAL_CHECKGROUP_ID_SUCCESS = "查询套餐关联的id成功";
+    public static final String QUERY_SETMEAL_CHECKGROUP_ID_FIAL = "查询套餐关联的id失败";
     public static final String DELETE_SETMEAL_SUCCESS="删除套餐数据成功";
     public static final String DELETE_SETMEAL_FAIL="删除套餐数据失败";
 
