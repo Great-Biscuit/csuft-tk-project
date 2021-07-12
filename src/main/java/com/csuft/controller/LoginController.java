@@ -188,8 +188,9 @@ public class LoginController {
      * @param ticket
      * @return
      */
-    @GetMapping("loginOut")
+    @GetMapping("/loginOut")
     @LoginRequired
+    @ResponseBody
     public String loginOut(@CookieValue("ticket") String ticket) {
         userService.loginOut(ticket);
         return ResultJSON.getJSONString(302);
