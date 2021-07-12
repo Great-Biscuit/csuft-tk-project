@@ -115,9 +115,9 @@ public class SetMealController {
     // 套餐数据编辑功能实现
     @LoginRequired
     @RequestMapping("/editSetMeal")
-    public Result editSetMeal(Setmeal setmeal, Integer[] setmealIds) {
+    public Result editSetMeal(@RequestBody Setmeal setmeal, Integer[] checkGroupIds) {
         try {
-            setMealService.editSetMeal(setmeal, setmealIds);
+            setMealService.editSetMeal(setmeal, checkGroupIds);
             return new Result(true, MessageConst.EDIT_SETMEAL_SUCCESS);
         } catch (Exception e) {
             e.printStackTrace();

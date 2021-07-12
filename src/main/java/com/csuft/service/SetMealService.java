@@ -16,5 +16,5 @@ public interface SetMealService {
 
     List<Integer> findCheckGroupId(Integer id);
 
-    void editSetMeal(Setmeal setmeal, Integer[] setmealIds);
+    void editSetMeal(Setmeal setmeal, Integer[] checkGroupIds);
 }

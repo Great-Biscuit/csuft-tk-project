@@ -23,16 +23,16 @@ public class SetMealServiceImpl implements SetMealService {
 
     @Override
     public PageResult findPage(QueryPageBean queryPageBean) {
-        PageHelper.startPage(queryPageBean.getCurrentPage(),queryPageBean.getPageSize());
+        PageHelper.startPage(queryPageBean.getCurrentPage(), queryPageBean.getPageSize());
         Page<Setmeal> page = setMealMapper.findPage(queryPageBean.getQueryString());
-        return new PageResult(page.getTotal(),page.getResult());
+        return new PageResult(page.getTotal(), page.getResult());
     }
 
     @Override
     public void delSetMeal(Integer id) {
         Long count = setMealMapper.findSetMealIds(id);
-        if(count>0){
-            throw  new RuntimeException("当前记录有关联数据,请先消除关联数据");
+        if (count > 0) {
+            throw new RuntimeException("当前记录有关联数据,请先消除关联数据");
         }
         setMealMapper.delSetMeal(id);
     }
@@ -42,10 +42,10 @@ public class SetMealServiceImpl implements SetMealService {
         //1.保存套餐数据
         setMealMapper.addSetmeal(setmeal);
         //2.循环检查组的id来保存中间的表的数据
-        for (Integer id:checkgroupIds) {
-            Map<String,Integer> map = new HashMap();
-            map.put("setmeal_id",setmeal.getId());
-            map.put("checkgroup_id",id);
+        for (Integer id : checkgroupIds) {
+            Map<String, Integer> map = new HashMap();
+            map.put("setmeal_id", setmeal.getId());
+            map.put("checkgroup_id", id);
 
             setMealMapper.addSetmealAndCheckGroupId(map);
         }
@@ -62,14 +62,21 @@ public class SetMealServiceImpl implements SetMealService {
     }
 
     @Override
-    public void editSetMeal(Setmeal setmeal, Integer[] setmealIds) {
-        setMealMapper.editSetMeal(setmeal);
-        setMealMapper.delSetMealAndCheckGroup(setmeal.getId());
-        for (Integer id:setmealIds) {
-            Map<String,Integer> map  = new HashMap();
-            map.put("setmeal_id",setmeal.getId());
-            map.put("checkgroup_id",id);
-            setMealMapper.addSetmealAndCheckGroupId(map);
+    public void editSetMeal(Setmeal setmeal, Integer[] checkGroupIds) {
+        if (setmeal != null && setmeal.getId() != null) {
+            setMealMapper.editSetMeal(setmeal);
+            setMealMapper.delSetMealAndCheckGroup(setmeal.getId());
+
+            if (checkGroupIds != null && checkGroupIds.length != 0) {
+                for (Integer id : checkGroupIds) {
+                    Map<String, Integer> map = new HashMap();
+                    map.put("setmeal_id", setmeal.getId());
+                    map.put("checkgroup_id", id);
+                    setMealMapper.addSetmealAndCheckGroupId(map);
+                }
+            }
+
         }
+
     }
 }

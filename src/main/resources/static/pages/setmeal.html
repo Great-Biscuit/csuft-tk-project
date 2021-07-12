@@ -472,10 +472,10 @@
                 },
                 //编辑数据
                 handleEdit(){
-                    axios.post(BACK_END+"/setmeal/editSetMeal?setmealIds="+this.checkgroupIds,this.formData).then(res=>{
-                        if(res.data.flag){
+                    axios.post(BACK_END + "/setmeal/editSetMeal?checkGroupIds=" + this.checkgroupIds, this.formData).then(res => {
+                        if (res.data.flag) {
                             this.$message.success(res.data.message);
-                        } else{
+                        } else {
                             this.$message.error(res.data.message);
                         }
 

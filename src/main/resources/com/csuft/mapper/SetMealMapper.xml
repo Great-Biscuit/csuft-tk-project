@@ -28,7 +28,8 @@
     </insert>
     <!--添加套餐数据的关联关系-->
     <insert id="addSetmealAndCheckGroupId" parameterType="map">
-        insert into t_setmeal_checkgroup values (#{setmeal_id},#{checkgroup_id});
+        insert into t_setmeal_checkgroup
+        values (#{setmeal_id}, #{checkgroup_id});
     </insert>
 
     <select id="findSetMeal" parameterType="int" resultType="setmeal">
