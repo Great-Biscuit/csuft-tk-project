@@ -27,4 +27,10 @@
         where id = #{userId}
     </update>
 
+    <update id="updatePassword">
+        update t_user
+        set password=#{newPassword}
+        where id = #{userId}
+    </update>
+
 </mapper>

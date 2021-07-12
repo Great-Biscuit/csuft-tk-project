@@ -1,5 +1,6 @@
 package com.csuft.controller;
 
+import com.csuft.annotation.LoginRequired;
 import com.csuft.common.MessageConst;
 import com.csuft.common.PageResult;
 import com.csuft.common.QueryPageBean;
@@ -19,6 +20,7 @@ public class CheckItemController {
     @Autowired
     CheckItemService checkItemService;
 
+    @LoginRequired
     @RequestMapping("/findList")
     public Result findList() {
         List<CheckItem> list = checkItemService.findList();
@@ -29,6 +31,7 @@ public class CheckItemController {
         }
     }
 
+    @LoginRequired
     @RequestMapping("/findPage")
     public PageResult findPage(@RequestBody QueryPageBean queryPageBean) {
         try {
@@ -40,6 +43,7 @@ public class CheckItemController {
         }
     }
 
+    @LoginRequired
     @RequestMapping("/addCheckItem")
     public Result addCheckItem(@RequestBody CheckItem checkItem) {
         try {
@@ -51,6 +55,7 @@ public class CheckItemController {
         }
     }
 
+    @LoginRequired
     @RequestMapping("/findById")
     public Result findById(Integer id) {
         try {
@@ -62,6 +67,7 @@ public class CheckItemController {
         }
     }
 
+    @LoginRequired
     @RequestMapping("/editCheckItem")
     public Result editCheckItem(@RequestBody CheckItem checkItem) {
         try {
@@ -73,6 +79,7 @@ public class CheckItemController {
         }
     }
 
+    @LoginRequired
     @RequestMapping("/delCheckItem")
     public Result delCheckItem(Integer id) {
         try {

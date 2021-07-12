@@ -1,5 +1,6 @@
 package com.csuft.controller;
 
+import com.csuft.annotation.LoginRequired;
 import com.csuft.common.MessageConst;
 import com.csuft.entity.User;
 import com.csuft.service.UserService;
@@ -188,6 +189,7 @@ public class LoginController {
      * @return
      */
     @GetMapping("loginOut")
+    @LoginRequired
     public String loginOut(@CookieValue("ticket") String ticket) {
         userService.loginOut(ticket);
         return ResultJSON.getJSONString(302);
