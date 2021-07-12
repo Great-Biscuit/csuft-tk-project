@@ -69,8 +69,6 @@ public class CheckGroupImpl implements CheckGroupService {
 
     @Override
     public void editCheckGroup(CheckGroup checkGroup, Integer[] checkitemIds) {
-        System.out.println(checkGroup);
-        System.out.println(checkitemIds);
         //1.将检查组的数据进行更新
         checkGroupMapper.editCheckGroup(checkGroup);
         //2.将以前关联的数据根据检查组的id进行删除

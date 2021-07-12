@@ -6,6 +6,7 @@ import com.github.pagehelper.Page;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -23,4 +24,12 @@ public interface SetMealMapper {
     void addSetmeal(Setmeal setmeal);
     //添加套餐数据的关联关系
     void addSetmealAndCheckGroupId(Map<String, Integer> map);
+
+    Setmeal findSetMeal(Integer id);
+
+    List<Integer> findCheckGroupId(Integer id);
+
+    void editSetMeal(Setmeal setmeal);
+
+    void delSetMealAndCheckGroup(Integer id);
 }
