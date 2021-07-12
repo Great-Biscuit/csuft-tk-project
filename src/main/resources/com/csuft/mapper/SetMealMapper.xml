@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.csuft.mapper.SetMealMapper">
+
+    <select id="findPage" parameterType="string" resultType="setmeal">
+        select * from t_setmeal
+        <if test="queryString !=null and queryString.length>0">
+            where code like CONCAT('%',#{queryString},'%') or name like CONCAT('%',#{queryString},'%') or helpCode like CONCAT('%',#{queryString},'%')
+        </if>
+    </select>
+
+    <select id="findSetMealIds" parameterType="int" resultType="long">
+        select count(setmeal_id) from t_setmeal_checkgroup where setmeal_id =#{id}
+    </select>
+
+    <delete id="delSetMeal" parameterType="int">
+        delete from t_setmeal where id = #{id}
+    </delete>
+
+    <!--保存套餐数据-->
+    <insert id="addSetmeal" parameterType="setmeal">
+        insert into t_setmeal values (null,#{name},#{code},#{helpCode},#{sex},#{age},#{price},#{remark},#{attention},#{img});
+        <selectKey resultType="int" keyProperty="id">
+            select LAST_INSERT_ID();
+        </selectKey>
+    </insert>
+    <!--添加套餐数据的关联关系-->
+    <insert id="addSetmealAndCheckGroupId" parameterType="map">
+        insert into t_setmeal_checkgroup values (#{setmeal_id},#{checkgroup_id});
+    </insert>
+</mapper>

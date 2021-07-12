@@ -70,6 +70,10 @@ public class MessageConst {
     public static final String GET_BUSINESS_REPORT_FAIL = "获取运营统计数据失败";
     public static final String GET_SETMEAL_LIST_SUCCESS = "查询套餐列表数据成功";
     public static final String GET_SETMEAL_LIST_FAIL = "查询套餐列表数据失败";
+    public static final String QUERY_CHECKGROUP_CHECKITEM_ID_SUCCESS = "查询检查组关联的id成功";
+    public static final String QUERY_CHECKGROUP_CHECKITEM_ID_FAIL = "查询检查组关联的id失败";
+    public static final String DELETE_SETMEAL_SUCCESS="删除套餐数据成功";
+    public static final String DELETE_SETMEAL_FAIL="删除套餐数据失败";
 
     /**
      * 激活成功
