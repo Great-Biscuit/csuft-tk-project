@@ -85,15 +85,12 @@ public class LoginController {
         int result = userService.activation(userId, code);
         if (result == MessageConst.ACTIVATION_SUCCESS) {
             model.addAttribute("msg", "激活成功,您的账号已经可以正常使用了!");
-            model.addAttribute("target", "/login");
         } else if (result == MessageConst.ACTIVATION_REPEAT) {
             model.addAttribute("msg", "无效操作,该账号已经激活过了!");
-            model.addAttribute("target", "/login");
         } else {
             model.addAttribute("msg", "激活失败,您提供的激活码不正确!");
-            model.addAttribute("target", "/login");
         }
-        return "/operate-result";
+        return "result";
     }
 
     /**

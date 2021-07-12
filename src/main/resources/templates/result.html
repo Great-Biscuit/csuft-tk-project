@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
 	<meta charset="utf-8">
 	<meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
@@ -9,15 +9,16 @@
 </head>
 <body class="bg-white">
 <div class="nk-container">
+
 	<!-- 内容 -->
 	<div class="main">
 		<div class="container mt-5">
 			<div class="jumbotron">
-				<p class="lead">我们给您发送了一封邮件，请前往邮箱点击链接激活您的账号!</p>
+				<p class="lead" th:text="${msg}">我们给您发送了一封邮件，请前往邮箱点击链接激活您的账号!</p>
 				<hr class="my-4">
 				<p>
 					系统会在 <span class="text-danger" id="seconds">8</span> 秒后自动跳转,
-					您也可以点此 <a class="text-primary" id="target" href="./login.html">链接</a>, 手动跳转!
+					您也可以点此 <a class="text-primary" href="/login" id="target">链接</a>, 手动跳转!
 				</p>
 			</div>
 		</div>
