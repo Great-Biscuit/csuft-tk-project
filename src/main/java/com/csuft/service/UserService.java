@@ -1,5 +1,6 @@
 package com.csuft.service;
 
+import com.csuft.entity.LoginTicket;
 import com.csuft.entity.User;
 
 import java.util.Map;
@@ -38,4 +39,8 @@ public interface UserService {
      * @param ticket
      */
     void loginOut(String ticket);
+
+    LoginTicket findLoginTicket(String ticket);
+
+    User findUserById(int userId);
 }

@@ -1,5 +1,6 @@
 package com.csuft.controller;
 
+import com.csuft.annotation.LoginRequired;
 import com.csuft.common.*;
 import com.csuft.entity.Setmeal;
 import com.csuft.service.SetMealService;
@@ -23,6 +24,7 @@ public class SetMealController {
     private SetMealService setMealService;
 
 
+    @LoginRequired
     @RequestMapping("/findPage")
     public PageResult findPage(@RequestBody QueryPageBean queryPageBean){
         try{
@@ -35,6 +37,7 @@ public class SetMealController {
 
     }
 
+    @LoginRequired
     @RequestMapping("/delSetMeal")
     public Result delSetMeal(Integer id){
         try {
@@ -51,6 +54,7 @@ public class SetMealController {
     }
 
     //图片上传的方法
+    @LoginRequired
     @RequestMapping("/upload")
     public Result upload(@Param("imgFile") MultipartFile imgFile){
         try{
@@ -69,7 +73,9 @@ public class SetMealController {
             return new Result(false,MessageConst.PIC_UPLOAD_FAIL);
         }
     }
+
     //添加套餐数据
+    @LoginRequired
     @RequestMapping("/addSetmeal")
     public Result addSetmeal(@RequestBody Setmeal setmeal, Integer[] checkgroupIds){
         try{

@@ -1,5 +1,6 @@
 package com.csuft.controller;
 
+import com.csuft.annotation.LoginRequired;
 import com.csuft.common.MessageConst;
 import com.csuft.common.PageResult;
 import com.csuft.common.QueryPageBean;
@@ -19,6 +20,7 @@ public class CheckGroupController {
     @Autowired CheckGroupService checkGroupService;
 
     //查询数据列表(不带分页的)
+    @LoginRequired
     @RequestMapping("/findList")
     public Result findList(){
         try{
@@ -30,6 +32,7 @@ public class CheckGroupController {
         }
     }
 
+    @LoginRequired
     @RequestMapping("/findPage")
     public PageResult findPage(@RequestBody QueryPageBean queryPageBean) {
         try {
@@ -41,6 +44,7 @@ public class CheckGroupController {
         }
     }
 
+    @LoginRequired
     @RequestMapping("/addCheckGroup")
     public Result addCheckGroup(@RequestBody CheckGroup checkGroup, Integer[] checkitemIds) {
         try {
@@ -53,6 +57,7 @@ public class CheckGroupController {
     }
 
     //删除检查组的数据
+    @LoginRequired
     @RequestMapping("/delCheckGroup")
     public Result delCheckGroup(Integer id){
         try{
@@ -70,6 +75,7 @@ public class CheckGroupController {
         }
     }
     //根据检查组的id查询检查组对象
+    @LoginRequired
     @RequestMapping("/findCheckGroup")
     public Result findCheckGroup(Integer id){
         try{
@@ -83,6 +89,7 @@ public class CheckGroupController {
         }
     }
     //查询检查组关联的检查项id
+    @LoginRequired
     @RequestMapping("/findCheckItemId")
     public Result findCheckItemId(Integer id){
         try{
@@ -96,6 +103,7 @@ public class CheckGroupController {
         }
     }
     //检查组数据编辑功能实现
+    @LoginRequired
     @RequestMapping("/editCheckGroup")
     public Result editCheckGroup(@RequestBody CheckGroup checkGroup,Integer[] checkitemIds) {
         try {

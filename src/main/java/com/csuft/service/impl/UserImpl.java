@@ -22,6 +22,7 @@ import org.thymeleaf.context.Context;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class UserImpl implements UserService {
@@ -158,7 +159,37 @@ public class UserImpl implements UserService {
         redisTemplate.opsForValue().set(redisKey, loginTicket);//覆盖
     }
 
-    //清除缓存
+    @Override
+    public LoginTicket findLoginTicket(String ticket) {
+        String redisKey = RedisKeyUtil.getTicketKey(ticket);
+        return (LoginTicket) redisTemplate.opsForValue().get(redisKey);
+    }
+
+    @Override
+    public User findUserById(int userId) {
+        User user = getCache(userId);//看Redis里有没有
+        if (user == null) {
+            user = initCache(userId);
+        }
+        return user;
+    }
+
+    //使用Redis优化
+    //1.优先从缓存里查
+    public User getCache(int userId) {
+        String redisKey = RedisKeyUtil.getUserKey(userId);
+        return (User) redisTemplate.opsForValue().get(redisKey);
+    }
+
+    //2.缓存没有就初始化
+    public User initCache(int userId) {
+        User user = userMapper.selectById(userId);
+        String redisKey = RedisKeyUtil.getUserKey(userId);
+        redisTemplate.opsForValue().set(redisKey, user, 3600, TimeUnit.SECONDS);//1小时有效
+        return user;
+    }
+
+    //3.修改后清除缓存
     public void clearCache(int userId) {
         String redisKey = RedisKeyUtil.getUserKey(userId);
         redisTemplate.delete(redisKey);
