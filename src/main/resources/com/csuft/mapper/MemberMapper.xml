@@ -4,24 +4,24 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.csuft.mapper.MemberMapper">
-    <select id="findList" resultType="Member">
+    <select id="findList" resultType="member">
         select id,fileNumber,name,sex,idCard,phoneNumber,regTime,email,birthday,remark from t_member
     </select>
-    <select id="findPage" parameterType="string" resultType="Member">
-        select id,fileNumber,name,sex,idCard,phoneNumber,regTime,email,birthday,remark from t_number
+    <select id="findPage" parameterType="string" resultType="member">
+        select id,fileNumber,name,sex,idCard,phoneNumber,regTime,email,birthday,remark from t_member
         <if test="queryString !=null and queryString.length>0">
-            where code like CONCAT('%',#{queryString},'%')  or name like CONCAT('%',#{queryString},'%')
+            where id like CONCAT('%',#{queryString},'%')  or name like CONCAT('%',#{queryString},'%')
         </if>
     </select>
     <select id="findById" parameterType="int" resultType="member">
         select id,fileNumber,name,sex,idCard,phoneNumber,regTime,email,birthday,remark from t_member where id=#{id}
     </select>
-    <insert id="addMember" parameterType="Member">
-        insert into t_member values (null, #{fileNumber}, #{name}, #{sex}, #{idCard}, #{phoneNumber}, #{regTime}, #{password},#{email},#{birthday} #{remark})
+    <insert id="addMember" parameterType="member">
+        insert into t_member values (null, #{fileNumber}, #{name}, #{sex}, #{idCard}, #{phoneNumber}, #{regTime}, #{password},#{email},#{birthday},#{remark})
     </insert>
-    <update id="editMember" parameterType="Member">
+    <update id="editMember" parameterType="member">
         update t_member
-        set id=#{id}, fileMumber=#{fileMumber},name=#{name},sex=#{sex},idCard=#{idCard},phoneNumber=#{phoneNumber},regTime=#{regTime}, email=#{email},birthday=#{birthday},remark=#{remark}
+        set id=#{id}, fileNumber=#{fileNumber},name=#{name},sex=#{sex},idCard=#{idCard},phoneNumber=#{phoneNumber},regTime=#{regTime}, email=#{email},birthday=#{birthday},remark=#{remark}
         where id=#{id}
     </update>
     <delete id="delMember" parameterType="int">
