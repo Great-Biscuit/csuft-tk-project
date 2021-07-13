@@ -9,6 +9,7 @@ spring:
     username: root
     password: 7840567108
 
+
 #mybatis
 mybatis:
   mapper-locations: classpath:com/csuft/mapper/*Mapper.xml
