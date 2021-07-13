@@ -84,6 +84,9 @@ public class MessageConst {
     public static final String QUERY_SETMEAL_CHECKGROUP_ID_FIAL = "查询套餐关联的id失败";
     public static final String DELETE_SETMEAL_SUCCESS="删除套餐数据成功";
     public static final String DELETE_SETMEAL_FAIL="删除套餐数据失败";
+    public static final String QUERY_SETMEAL_ORDER_SUCCESS="查询套餐分类数据成功";
+    public static final String QUERY_SETMEAL_OREDER_FAIL="查询套餐分类数据失败";
+
 
 
 

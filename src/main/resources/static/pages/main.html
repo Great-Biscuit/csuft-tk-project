@@ -41,12 +41,12 @@
                                 {{username}}
                             </div>
                             <el-dropdown-menu slot="dropdown">
-                                <el-dropdown-item divided>
-                                    <span style="display:block;" @click="changePassword">修改密码</span>
+                                <el-dropdown-item  @click="changePassword">
+                                    <span style="display:block;">修改密码</span>
                                 </el-dropdown-item>
-                                <el-dropdown-item divided>
-                                        <span style="display:block;" @click="handleLogout">退出</span>
-                                    </el-dropdown-item>
+                                <el-dropdown-item divided @click="handleLogout">
+                                        <span style="display:block;">退出</span>
+                                 </el-dropdown-item>
                             </el-dropdown-menu>
                         </el-dropdown>
                     </div>
@@ -192,8 +192,14 @@
                     "children":[//是否有子菜单，若没有，则为[]
                         {
                             "path": "/5-1",
-                            "title": "工作量统计",
-                            "linkUrl":"all-medical-list.html",
+                            "title": "会员数量的统计",
+                            "linkUrl":"report_member.html",
+                            "children":[]
+                        },
+                        {
+                            "path": "/5-2",
+                            "title": "套餐预约占比",
+                            "linkUrl":"report_setmeal.html",
                             "children":[]
                         }
                     ]
