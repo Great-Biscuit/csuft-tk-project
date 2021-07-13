@@ -25,10 +25,12 @@
         set orderDate=#{orderDate},
             orderType=#{orderType},
             orderStatus=#{orderStatus},
-            setmeal_id=#{setmeal_id}
-        where member_id = #{member_id}
+            setmeal_id=#{setmealId}
+        where id = #{id}
     </update>
     <delete id="delOrder" parameterType="int">
-        delete from t_order where id=#{id}
+        delete
+        from t_order
+        where id = #{id}
     </delete>
 </mapper>
