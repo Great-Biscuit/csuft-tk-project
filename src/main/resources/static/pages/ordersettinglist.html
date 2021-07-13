@@ -26,7 +26,7 @@
     <div class="app-container">
         <div class="box">
             <div class="filter-container">
-                <el-input placeholder="会员id" v-model="pagination.queryString" style="width: 200px;" class="filter-item"></el-input>
+                <el-input placeholder="请输入会员id" v-model="pagination.queryString" style="width: 200px;" class="filter-item" clearable></el-input>
                 <el-button @click="findPageByCondition()" class="dalfBut">查询</el-button>
             </div>
             <el-table size="small" current-row-key="id" :data="dataList" stripe highlight-current-row>
