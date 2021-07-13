@@ -209,6 +209,8 @@
             axios.get(BACK_END + '/user/getUserInfo').then(res => {
                 if (res && res.data && res.data.flag) {
                     this.username = res.data.message.username;
+                } else {
+                    parent.location.href ='login.html';
                 }
             })
         },
@@ -231,7 +233,6 @@
             handleLogout() {
                 axios.get(BACK_END + '/loginOut').then(res => {
                     if (res && res.data && res.data.flag) {
-                        console.log("被执行")
                         parent.location.href ='login.html';
                     }
                     else {

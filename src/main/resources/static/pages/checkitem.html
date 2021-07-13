@@ -26,7 +26,7 @@
             <div class="app-container">
                 <div class="box">
                     <div class="filter-container">
-                        <el-input placeholder="项目编码/项目名称" v-model="pagination.queryString" style="width: 200px;" class="filter-item"></el-input>
+                        <el-input placeholder="项目编码/项目名称" v-model="pagination.queryString" style="width: 200px;" class="filter-item" clearable></el-input>
                         <el-button @click="findPageByCondition()" class="dalfBut">查询</el-button>
                         <el-button type="primary" class="butT" @click="handleCreate()">新建</el-button>
                     </div>
@@ -85,7 +85,7 @@
                                         </el-form-item>
                                     </el-col>
                                     <el-col :span="12">
-                                        <el-form-item label="适用年龄">
+                                        <el-form-item label="适用年龄" prop="age">
                                             <el-input v-model="formData.age"/>
                                         </el-form-item>
                                     </el-col>
@@ -169,7 +169,7 @@
                                         </el-form-item>
                                     </el-col>
                                     <el-col :span="12">
-                                        <el-form-item label="价格">
+                                        <el-form-item label="价格" prop="price">
                                             <el-input v-model="formData.price"/>
                                         </el-form-item>
                                     </el-col>
@@ -220,9 +220,26 @@
                 formData: {},//表单数据
                 dialogFormVisible: false,//增加表单是否可见
                 dialogFormVisible4Edit:false,//编辑表单是否可见
-                rules: {//校验规则
-                    code: [{ required: true, message: '项目编码为必填项', trigger: 'blur' }],
-                    name: [{ required: true, message: '项目名称为必填项', trigger: 'blur' }]
+                rules: {
+                    //新增校验规则:7-13-15:45 lmz
+                    code: [
+                        { required: true, message: '项目编码为必填项', trigger: 'blur' },
+                        { min: 1, max: 5,message: '长度在 1 到 5 个字符', trigger: 'blur' },
+                        { pattern:/^[0-9]+$/, message: '项目编码为必须为数字', trigger: 'blur'}
+                    ],
+                    name: [
+                        { required: true, message: '项目名称为必填项', trigger: 'blur' },
+                        { min: 1, max: 15,message: '长度在 1 到 15 个字符', trigger: 'blur' },
+                        { pattern:/^[a-zA-Z0-9\u4e00-\u9fa5()（）]+$/, message: '只能输入汉字、数字、字母和括号', trigger: 'blur'}
+                    ],
+                    age:[
+                        { required: true, message: '适用年龄为必填项', trigger: 'blur' },
+                        { min: 1, max: 3,message: '请输入正确的年龄', trigger: 'blur' },
+                        { pattern:/^[0-9]+$/, message: '适用年龄必须为数字', trigger: 'blur'}
+                    ],
+                    price:[
+                        { pattern:/^[0-9]+$/, message: '价格必须为数字', trigger: 'blur'}
+                    ]
                 }
             },
             //钩子函数，VUE对象初始化完成后自动执行
