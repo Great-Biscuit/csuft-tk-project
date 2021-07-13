@@ -18,7 +18,7 @@ public class OrderController {
     @Autowired
     OrderService orderService;
 
-    /*@LoginRequired
+    @LoginRequired
     @RequestMapping("/findPage")
     public PageResult findPage(@RequestBody QueryPageBean queryPageBean) {
         try {
@@ -28,7 +28,7 @@ public class OrderController {
             e.printStackTrace();
             return new PageResult(0L,null);
         }
-    }*/
+    }
 
     @LoginRequired
     @RequestMapping("/editOrder")

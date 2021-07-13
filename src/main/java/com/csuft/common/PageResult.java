@@ -33,4 +33,12 @@ public class PageResult implements Serializable {
     public void setRows(List rows) {
         this.rows = rows;
     }
+
+    @Override
+    public String toString() {
+        return "PageResult{" +
+                "total=" + total +
+                ", rows=" + rows +
+                '}';
+    }
 }

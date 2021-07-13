@@ -9,7 +9,9 @@ import java.util.List;
 public interface SetMealService {
 
     PageResult findPage(QueryPageBean queryPageBean);
+
     void delSetMeal(Integer id);
+
     void addSetmeal(Setmeal setmeal, Integer[] checkgroupIds);
 
     Setmeal findSetMeal(Integer id);
