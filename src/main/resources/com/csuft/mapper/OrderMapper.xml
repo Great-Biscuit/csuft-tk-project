@@ -11,7 +11,8 @@
         t.orderDate orderDate,
         t.orderType orderType,
         t.orderStatus orderStatus,
-        ts.name setmealName
+        ts.name setmealName,
+        ts.id setmealId
         from t_member tm
         inner join t_order t on tm.id = t.member_id
         inner join t_setmeal ts on t.setmeal_id = ts.id
