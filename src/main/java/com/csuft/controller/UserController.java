@@ -44,17 +44,17 @@ public class UserController {
     /**
      * 更新密码
      *
-     * @param oldPassword 旧密码
-     * @param newPassword 新密码
-     * @param ticket      Cookie中的凭证
+     * @param password 封装的密码类
+     * @param ticket
      * @return
      */
     @LoginRequired
     @PostMapping("/updatePassword")
     @ResponseBody
-    public String updatePassword(String oldPassword, String newPassword, @CookieValue("ticket") String ticket) {
+    public String updatePassword(@RequestBody Map<String, String> password, @CookieValue("ticket") String ticket) {
+
         User user = hostHolder.getUser();
-        Map<String, Object> map = userService.updatePassword(user.getId(), oldPassword, newPassword);
+        Map<String, Object> map = userService.updatePassword(user.getId(), password.get("oldPassword"), password.get("newPassword"));
         if (map == null || map.isEmpty()) {
             //重置密码后需要重新登录
             userService.loginOut(ticket);
