@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.csuft.mapper.ReportMapper">
+    <!--查询会员数量-->
+    <select id="findMemberCount" parameterType="string" resultType="int">
+        select count(id) from t_member where regTime &gt;= #{startTime} and regTime &lt;=#{endTime}
+    </select>
+    <!--查询套餐关联的订单数量-->
+    <select id="findSetmealAndOrderCount" resultType="map">
+        select s.name name, count(o.id) value from
+        t_setmeal s, t_order o where s.id = o.setmeal_id  group by s.name
+    </select>
+</mapper>
