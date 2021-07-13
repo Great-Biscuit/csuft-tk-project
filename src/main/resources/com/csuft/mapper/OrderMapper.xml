@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.csuft.mapper.OrderMapper">
+<!--    <resultMap type="OrderM" id="orderMap">
+        <id column="oid" property="id"/>
+        <result column="omemberid" property="member_id"/>
+        <result column="odate" property="OrderDate"/>
+        <result column="ostatus" property="orderStatus"/>
+        <association property="member" javaType="Member">
+            <id column="tid" property="id"/>
+            <result column="tname" property="name"/>
+        </association>
+        <association property="setmeal" javaType="setmeal">
+            <id column="sid" property="id"/>
+            <result column="tname" property="name"/>
+        </association>
+    </resultMap>
+    <select id="findPage" parameterType="string" resultMap="resMap">
+        select o.id oid,o.member_id omemberid,o.OrderDate odate,o.orderType otype,o.orderStatus ostatus,o.setmeal_id osetmeal
+        n.name nname,n.phoneNumber nphoneNumber,s.name sname
+        from t_order o
+        left join t_number n on o.member_id=n.id
+        left join t_setmeal s on o.setmeal_id=s.id
+        <if test="queryString !=null and queryString.length>0">
+            where id like CONCAT('%',#{queryString},'%')
+        </if>
+    </select>-->
+
+    <update id="editOrder" parameterType="Order">
+        update t_order
+        set orderDate=#{orderDate}, orderType=#{orderType},orderStatus=#{orderStatus},setmeal_id=#{setmeal_id}
+        where member_id=#{member_id}
+    </update>
+    <delete id="delOrder" parameterType="int">
+        delete from t_order where id=#{id}
+    </delete>
+</mapper>
