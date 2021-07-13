@@ -79,4 +79,9 @@ public class SetMealServiceImpl implements SetMealService {
         }
 
     }
+
+    @Override
+    public List<Setmeal> findList() {
+        return setMealMapper.findList();
+    }
 }

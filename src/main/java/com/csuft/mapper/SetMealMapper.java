@@ -32,4 +32,6 @@ public interface SetMealMapper {
     void editSetMeal(Setmeal setmeal);
 
     void delSetMealAndCheckGroup(Integer id);
+
+    List<Setmeal> findList();
 }
