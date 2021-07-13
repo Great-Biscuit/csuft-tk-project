@@ -7,7 +7,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/csuft-tk-project?chartsetEncoding=utf-8&&serverTimezone=UTC&&useUnicode=true
     username: root
-    password: lyx010128.
+    password: 7840567108
 
 #mybatis
 mybatis:
