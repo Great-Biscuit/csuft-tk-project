@@ -38,6 +38,8 @@ public class MessageConst {
     public static final String GET_ORDERSETTING_FAIL = "获取预约设置数据失败";
     public static final String ORDERSETTING_SUCCESS = "预约设置成功";
     public static final String ORDERSETTING_FAIL = "预约设置失败";
+    public static final String QUERY_MEMBER_SUCCESS = "查询会员成功";
+    public static final String QUERY_MEMBER_FAIL = "查询会员失败";
     public static final String ADD_MEMBER_FAIL = "新增会员失败";
     public static final String ADD_MEMBER_SUCCESS = "新增会员成功";
     public static final String DELETE_MEMBER_FAIL = "删除会员失败";
@@ -78,6 +80,9 @@ public class MessageConst {
     public static final String QUERY_SETMEAL_CHECKGROUP_ID_FIAL = "查询套餐关联的id失败";
     public static final String DELETE_SETMEAL_SUCCESS="删除套餐数据成功";
     public static final String DELETE_SETMEAL_FAIL="删除套餐数据失败";
+
+
+
 
     /**
      * 激活成功
