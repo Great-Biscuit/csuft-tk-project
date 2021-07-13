@@ -67,6 +67,18 @@ public class MemberController {
     }
 
     @LoginRequired
+    @RequestMapping("/editMember")
+    public Result editMember(@RequestBody Member member) {
+        try {
+            memberService.editMember(member);
+            return new Result(true, MessageConst.EDIT_MEMBER_SUCCESS);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Result(false, MessageConst.EDIT_MEMBER_FAIL);
+        }
+    }
+
+    @LoginRequired
     @RequestMapping("/delMember")
     public Result delMember(Integer id) {
         try {

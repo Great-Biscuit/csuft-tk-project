@@ -55,18 +55,22 @@
     <div class="app-container">
         <div class="box">
             <div class="filter-container">
-                <el-input placeholder="编码/姓名/身份证" v-model="pagination.queryString" style="width: 200px;" class="filter-item" @keyup.enter.native="handleFilter"></el-input>
+                <el-input placeholder="编码/姓名" v-model="pagination.queryString" style="width: 200px;" class="filter-item" @keyup.enter.native="handleFilter"></el-input>
                 <el-button @click="findPage()" class="dalfBut">查询</el-button>
                 <el-button type="primary" class="butT" @click="handleCreate()">新建</el-button>
             </div>
             <el-table size="small" current-row-key="id" :data="dataList" stripe highlight-current-row>
                 <el-table-column type="index" align="center" label="序号"></el-table-column>
-                <el-table-column prop="code" label="会员编码" align="center"></el-table-column>
+                <el-table-column prop="id" label="会员编码" align="center"></el-table-column>
                 <el-table-column prop="name" label="姓名" align="center"></el-table-column>
-                <el-table-column prop="sex" label="性别" align="center"></el-table-column>
-                <el-table-column prop="idcard" label="身份证" align="center"></el-table-column>
-                <el-table-column prop="regtime" label="注册时间" align="center"></el-table-column>
-                <el-table-column prop="phonenumber" label="电话号码" align="center"></el-table-column>
+                <el-table-column label="性别" align="center">
+                    <template slot-scope="scope">
+                        <span>{{ (scope.row.sex == '0' || scope.row.sex == null )? '保密' : scope.row.sex == '1' ? '男' : '女'}}</span>
+                    </template>
+                </el-table-column>
+                <el-table-column prop="idCard" label="身份证" align="center"></el-table-column>
+                <el-table-column prop="regTime" label="注册时间" align="center"></el-table-column>
+                <el-table-column prop="phoneNumber" label="电话号码" align="center"></el-table-column>
                 <el-table-column prop="birthday" label="生日" align="center"></el-table-column>
                 <el-table-column label="操作" align="center">
                     <template slot-scope="scope">
@@ -88,20 +92,13 @@
             <!-- 新增标签弹层 -->
             <div class="add-form">
                 <el-dialog title="新增会员" :visible.sync="dialogFormVisible">
-                    <el-form ref="dataAddForm" :model="formData" :rules="rules" label-position="right" label-width="100px">
+                    <el-form ref="dataAddForm" :model="formData" label-position="right" label-width="100px">
                         <el-row>
-                            <el-col :span="12">
-                                <el-form-item label="会员编码" prop="code">
-                                    <el-input v-model="formData.code"/>
-                                </el-form-item>
-                            </el-col>
                             <el-col :span="12">
                                 <el-form-item label="姓名" prop="name">
                                     <el-input v-model="formData.name"/>
                                 </el-form-item>
                             </el-col>
-                        </el-row>
-                        <el-row>
                             <el-col :span="12">
                                 <el-form-item label="性别">
                                     <el-select v-model="formData.sex">
@@ -111,28 +108,27 @@
                                     </el-select>
                                 </el-form-item>
                             </el-col>
-                            <el-col :span="12">
-                                <el-form-item label="身份证">
-                                    <el-input v-model="formData.idcard"/>
-                                </el-form-item>
-                            </el-col>
                         </el-row>
                         <el-row>
-                            <el-col :span="12">
-                                <el-form-item label="注册时间">
-                                    <el-input v-model="formData.regtime"/>
-                                </el-form-item>
-                            </el-col>
                             <el-col :span="12">
                                 <el-form-item label="生日">
-                                    <el-input v-model="formData.birthday"/>
+                                    <el-date-picker
+                                            v-model="formData.birthday"
+                                            type="date"
+                                            placeholder="请选择生日">
+                                    </el-date-picker>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="12">
+                                <el-form-item label="电话号码">
+                                    <el-input v-model="formData.phoneNumber"/>
                                 </el-form-item>
                             </el-col>
                         </el-row>
                         <el-row>
-                               <el-form-item label="电话号码">
-                                <el-input v-model="formData.phonenumber"/>
-                               </el-form-item>
+                            <el-form-item label="身份证">
+                                <el-input v-model="formData.idCard"/>
+                            </el-form-item>
                         </el-row>
                     </el-form>
                     <div slot="footer" class="dialog-footer">
@@ -142,25 +138,16 @@
                 </el-dialog>
             </div>
 
-
-
             <!-- 编辑标签弹层 -->
             <div class="add-form">
                 <el-dialog title="编辑会员" :visible.sync="dialogFormVisible4Edit">
-                    <el-form ref="dataEditForm" :model="formData" :rules="rules" label-position="right" label-width="100px">
+                    <el-form ref="dataEditForm" :model="formData" label-position="right" label-width="100px">
                         <el-row>
-                            <el-col :span="12">
-                                <el-form-item label="会员编码" prop="code">
-                                    <el-input v-model="formData.code"/>
-                                </el-form-item>
-                            </el-col>
                             <el-col :span="12">
                                 <el-form-item label="姓名" prop="name">
                                     <el-input v-model="formData.name"/>
                                 </el-form-item>
                             </el-col>
-                        </el-row>
-                        <el-row>
                             <el-col :span="12">
                                 <el-form-item label="性别">
                                     <el-select v-model="formData.sex">
@@ -170,23 +157,27 @@
                                     </el-select>
                                 </el-form-item>
                             </el-col>
-                            <el-col :span="12">
-                                <el-form-item label="身份证">
-                                    <el-input v-model="formData.idcard"/>
-                                </el-form-item>
-                            </el-col>
                         </el-row>
                         <el-row>
                             <el-col :span="12">
                                 <el-form-item label="生日">
-                                    <el-input v-model="formData.birthday"/>
+                                    <el-date-picker
+                                            v-model="formData.birthday"
+                                            type="date"
+                                            placeholder="请选择生日">
+                                    </el-date-picker>
                                 </el-form-item>
                             </el-col>
                             <el-col :span="12">
                                 <el-form-item label="电话号码">
-                                    <el-input v-model="formData.phonenumber"/>
+                                    <el-input v-model="formData.phoneNumber"/>
                                 </el-form-item>
                             </el-col>
+                        </el-row>
+                        <el-row>
+                            <el-form-item label="身份证">
+                                <el-input v-model="formData.idCard"/>
+                            </el-form-item>
                         </el-row>
                     </el-form>
                     <div slot="footer" class="dialog-footer">
@@ -211,6 +202,7 @@
                 total:100,
                 queryString:null,
             },
+            nowDate: '',
             dataList: [],//列表数据
             formData: {},//表单数据
             dialogFormVisible: false,//控制添加窗口显示/隐藏
@@ -231,18 +223,11 @@
             }
         },
         methods: {
-            findList() {
-                axios.get(BACK_END +"").then(res => {
-                    if (res && res.data) {
-                        this.dataList = res.data.data;
-                    }
-                })
-            },
             //编辑
             handleEdit() {
                 this.$refs['dataEditForm'].validate(valid => {
                     if (valid) {
-                        axios.post(BACK_END +'', this.formData).then(res => {
+                        axios.post(BACK_END +'/Member/editMember', this.formData).then(res => {
                             if (res && res.data && res.data.flag) {
                                 this.$message.success(res.data.message);
                             } else {
@@ -261,7 +246,8 @@
             handleAdd () {
                 this.$refs['dataAddForm'].validate(valid => {
                     if (valid) {
-                        axios.post(BACK_END + '', this.formData).then(res => {
+                        this.getNowFormatDay()
+                        axios.post(BACK_END + '/Member/addMember', {...this.formData, regTime: this.getNowFormatDay()}).then(res => {
                             if (res && res.data && res.data.flag) {
                                 this.$message({
                                     type:"success",
@@ -282,6 +268,20 @@
                     }
                 })
             },
+            getNowFormatDay(time) {
+                let char = "-";
+                if (!time) {
+                    nowDate = new Date();
+                } else {
+                    nowDate = new Date(time);
+                }
+                let day = nowDate.getDate();
+                let month = nowDate.getMonth() + 1;//注意月份需要+1
+                let year = nowDate.getFullYear();
+                let res = year + char + (month < 10 ? "0"+month:month) + char + (day < 10 ? "0"+day:day);
+                return res;
+            },
+
             findPageByCondition(){
                 this.pagination.currentPage = 1;
                 this.findPage();
@@ -293,9 +293,18 @@
                     pageSize: this.pagination.pageSize,
                     queryString: this.pagination.queryString
                 }
-                axios.post(BACK_END + '', params).then(res => {
+                axios.post(BACK_END + '/Member/findPage', params).then(res => {
                     if (res && res.data) {
+                        let tmp = res.data.rows;
                         this.dataList = res.data.rows;
+                        this.dataList.forEach(i => {
+                            if (i.regTime) {
+                                i.regTime = this.getNowFormatDay(i.regTime);
+                            }
+                            if (i.birthday) {
+                                i.birthday = this.getNowFormatDay(i.birthday);
+                            }
+                        });
                         this.pagination.total = res.data.total;
                     }
                 })
@@ -312,7 +321,7 @@
             // 弹出编辑窗口
             handleUpdate(row) {
                 this.dialogFormVisible4Edit = true;
-                axios.get(BACK_END +''+row.id).then(res => {
+                axios.get(BACK_END +'/Member/findById?id='+row.id).then(res => {
                     if (res && res.data) {
                         this.formData = res.data.data;
                     }
@@ -327,7 +336,7 @@
             // 删除
             handleDelete(row) {
                 this.$confirm("请确定是否要删除？", "提示框", {type:"warn"}).then(() => {
-                    axios.get(BACK_END +'id='+row.id).then(res => {
+                    axios.get(BACK_END +'/Member/delMember?id='+row.id).then(res => {
                         if (res && res.data && res.data.flag) {
                             this.$message.success(res.data.message);
                         } else {
