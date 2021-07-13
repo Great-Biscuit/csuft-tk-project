@@ -11,6 +11,10 @@
         </if>
     </select>
 
+    <select id="findList" resultType="setmeal">
+        select * from t_setmeal;
+    </select>
+
     <select id="findSetMealIds" parameterType="int" resultType="long">
         select count(setmeal_id) from t_setmeal_checkgroup where setmeal_id =#{id}
     </select>

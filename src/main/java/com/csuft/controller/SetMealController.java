@@ -38,6 +38,19 @@ public class SetMealController {
     }
 
     @LoginRequired
+    @RequestMapping("/findList")
+    public Result findList(){
+        try{
+            List<Setmeal> list = setMealService.findList();
+            return new Result(true, MessageConst.QUERY_SETMEAL_SUCCESS, list);
+        }catch (Exception e){
+            e.printStackTrace();
+            return new Result(false, MessageConst.QUERY_SETMEAL_FAIL);
+        }
+
+    }
+
+    @LoginRequired
     @RequestMapping("/delSetMeal")
     public Result delSetMeal(Integer id){
         try {

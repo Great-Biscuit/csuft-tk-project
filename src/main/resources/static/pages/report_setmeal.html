@@ -74,19 +74,12 @@
                 }
             }]
         };
-        //要将设置option，重新设置给myChart对象
         myChart.setOption(option);
-        //请求后台的方法，查询套餐的分类名称和每个分类对应的订单值
         axios.get(BACK_END + "/report/findSetmealCount").then(res=>{
-            //判断数据是否查询成功
             if(res.data.flag){
-                //给套餐分类 legend里面data进行赋值
                 option.legend.data = res.data.data.setmealNames;
-                //给series对象中data进行赋值
                 option.series[0].data = res.data.data.setmealCount;
-                //饼形图的清除
                 myChart.clear();
-                //进行重新设置饼形图的属性
                 myChart.setOption(option);
             }
         });

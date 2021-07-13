@@ -25,7 +25,6 @@
             </div>
             <div class="app-container">
                 <div class="box">
-                    <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
                     <div id="chart1" style="height:600px;"></div>
                 </div>
             </div>
@@ -43,23 +42,19 @@
         var myChart = echarts.init(document.getElementById('chart1'));
 
         var memberOption = {
-            //图标的标题
             title: {
                 text: '会员数量1'
             },
             tooltip: {},
-            //图表上的名称
             legend: {
                 data:['会员数量','上季度']
             },
-            //横坐标的值
             xAxis: {
                 data: ["2018.01","2018.02","2018.03","2018.04"]
             },
             yAxis: {
                 type:'value'
             },
-            //纵坐标的值
             series: [{
                 name: '会员数量',
                 type: 'line',
@@ -68,16 +63,11 @@
             }]
         };
 
-        // 使用刚指定的配置项和数据显示图表。
         myChart.setOption(memberOption);
-        //1.请求后台的查询方法，将近1年会员注册的数量和月份查询出来
         axios.get(BACK_END + "/report/findMemberCount").then(res=>{
-            //2.将查询出来的月份进行数据的替换，具体替换的数据是xAxis对象中的data属性
             if(res.data.flag){
-                //3.还要将series中的data值也进行赋值操作
                 memberOption.xAxis.data = res.data.data.months;
                 memberOption.series[0].data = res.data.data.memberCount;
-                //4.将原有的option数据进行清除,将现有的设置对象进行重新赋值
                 myChart.clear();
                 myChart.setOption(memberOption);
             }
