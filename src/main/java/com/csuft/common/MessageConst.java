@@ -52,6 +52,10 @@ public class MessageConst {
     public static final String VALIDATECODE_ERROR = "验证码输入错误";
     public static final String QUERY_ORDER_SUCCESS = "查询预约信息成功";
     public static final String QUERY_ORDER_FAIL = "查询预约信息失败";
+    public static final String EDIT_ORDER_SUCCESS = "修改预约信息成功";
+    public static final String EDIT_ORDER_FAIL = "修改预约信息失败";
+    public static final String DELETE_ORDER_SUCCESS = "删除预约信息成功";
+    public static final String DELETE_ORDER_FAIL = "删除预约信息失败";
     public static final String QUERY_SETMEALLIST_SUCCESS = "查询套餐列表数据成功";
     public static final String QUERY_SETMEALLIST_FAIL = "查询套餐列表数据失败";
     public static final String QUERY_SETMEAL_SUCCESS = "查询套餐数据成功";
