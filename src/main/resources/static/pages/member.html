@@ -55,7 +55,7 @@
     <div class="app-container">
         <div class="box">
             <div class="filter-container">
-                <el-input placeholder="编码/姓名" v-model="pagination.queryString" style="width: 200px;" class="filter-item" @keyup.enter.native="handleFilter"></el-input>
+                <el-input placeholder="编码/姓名" v-model="pagination.queryString" style="width: 200px;" class="filter-item" @keyup.enter.native="handleFilter" clearable></el-input>
                 <el-button @click="findPage()" class="dalfBut">查询</el-button>
                 <el-button type="primary" class="butT" @click="handleCreate()">新建</el-button>
             </div>
@@ -92,7 +92,7 @@
             <!-- 新增标签弹层 -->
             <div class="add-form">
                 <el-dialog title="新增会员" :visible.sync="dialogFormVisible">
-                    <el-form ref="dataAddForm" :model="formData" label-position="right" label-width="100px">
+                    <el-form ref="dataAddForm" :model="formData" :rules="rules" label-position="right" label-width="100px">
                         <el-row>
                             <el-col :span="12">
                                 <el-form-item label="姓名" prop="name">
@@ -120,7 +120,7 @@
                                 </el-form-item>
                             </el-col>
                             <el-col :span="12">
-                                <el-form-item label="电话号码">
+                                <el-form-item label="电话号码" prop="phoneNumber">
                                     <el-input v-model="formData.phoneNumber"/>
                                 </el-form-item>
                             </el-col>
@@ -141,7 +141,7 @@
             <!-- 编辑标签弹层 -->
             <div class="add-form">
                 <el-dialog title="编辑会员" :visible.sync="dialogFormVisible4Edit">
-                    <el-form ref="dataEditForm" :model="formData" label-position="right" label-width="100px">
+                    <el-form ref="dataEditForm" :model="formData" :rules="rules" label-position="right" label-width="100px">
                         <el-row>
                             <el-col :span="12">
                                 <el-form-item label="姓名" prop="name">
@@ -169,7 +169,7 @@
                                 </el-form-item>
                             </el-col>
                             <el-col :span="12">
-                                <el-form-item label="电话号码">
+                                <el-form-item label="电话号码" prop="phoneNumber">
                                     <el-input v-model="formData.phoneNumber"/>
                                 </el-form-item>
                             </el-col>
@@ -206,7 +206,19 @@
             dataList: [],//列表数据
             formData: {},//表单数据
             dialogFormVisible: false,//控制添加窗口显示/隐藏
-            dialogFormVisible4Edit:false//控制编辑窗口显示/隐藏
+            dialogFormVisible4Edit:false,//控制编辑窗口显示/隐藏
+            rules: {
+                phoneNumber: [
+                    { required: true, message: '请输入手机号码', trigger: 'blur' },
+                    { pattern:/^1[12345789]\d{9}$/, message: '请输入正确的手机号码'}
+                ],
+                name: [
+                    { required: true, message: '请输入姓名', trigger: 'blur' },
+                    { min: 1, max: 10,message: '姓名过长', trigger: 'blur' },
+                    { pattern:/^[_a-zA-Z\u4e00-\u9fa5]+$/, message: '只能输入汉字、字母下划线', trigger: 'blur'}
+                ]
+
+            }
         },
         //钩子函数，VUE对象初始化完成后自动执行
         created() {
