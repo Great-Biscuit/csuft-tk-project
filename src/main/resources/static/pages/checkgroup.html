@@ -55,7 +55,7 @@
             <div class="app-container">
                 <div class="box">
                     <div class="filter-container">
-                        <el-input placeholder="编码/名称/助记码" v-model="pagination.queryString" style="width: 200px;" class="filter-item" @keyup.enter.native="handleFilter"></el-input>
+                        <el-input placeholder="编码/名称/助记码" v-model="pagination.queryString" style="width: 200px;" class="filter-item" @keyup.enter.native="handleFilter" clearable></el-input>
                         <el-button @click="findPage()" class="dalfBut">查询</el-button>
                         <el-button type="primary" class="butT" @click="handleCreate()">新建</el-button>
                     </div>
@@ -93,15 +93,15 @@
                             <template>
                                 <el-tabs v-model="activeName" type="card">
                                     <el-tab-pane label="基本信息" name="first">
-                                        <el-form label-position="right" label-width="100px">
+                                        <el-form ref="dataAddForm" :model="formData" :rules="rules" label-position="right" label-width="100px">
                                             <el-row>
                                                 <el-col :span="12">
-                                                    <el-form-item label="编码">
+                                                    <el-form-item label="检查组编码" prop="code">
                                                         <el-input v-model="formData.code"/>
                                                     </el-form-item>
                                                 </el-col>
                                                 <el-col :span="12">
-                                                    <el-form-item label="名称">
+                                                    <el-form-item label="检查组名称" prop="name">
                                                         <el-input v-model="formData.name"/>
                                                     </el-form-item>
                                                 </el-col>
@@ -177,15 +177,15 @@
                             <template>
                                 <el-tabs v-model="activeName" type="card">
                                     <el-tab-pane label="基本信息" name="first">
-                                        <el-form label-position="right" label-width="100px">
+                                        <el-form ref="dataAddForm" :model="formData" :rules="rules" label-position="right" label-width="100px">
                                             <el-row>
                                                 <el-col :span="12">
-                                                    <el-form-item label="编码">
+                                                    <el-form-item label="检查组编码" prop="code">
                                                         <el-input v-model="formData.code"/>
                                                     </el-form-item>
                                                 </el-col>
                                                 <el-col :span="12">
-                                                    <el-form-item label="名称">
+                                                    <el-form-item label="检查组名称" prop="name">
                                                         <el-input v-model="formData.name"/>
                                                     </el-form-item>
                                                 </el-col>
@@ -275,7 +275,20 @@
                 tableData:[],//新增和编辑表单中对应的检查项列表数据
                 checkitemIds:[],//新增和编辑表单中检查项对应的复选框，基于双向绑定可以进行回显和数据提交
                 dialogFormVisible: false,//控制添加窗口显示/隐藏
-                dialogFormVisible4Edit:false//控制编辑窗口显示/隐藏
+                dialogFormVisible4Edit:false,//控制编辑窗口显示/隐藏
+
+                rules:{//新增检查组校验规则 1-13-15:48 lmz
+                    code: [
+                        { required: true, message: '检查组编码为必填项', trigger: 'blur' },
+                        { min: 1, max: 5,message: '长度在 1 到 5 个字符', trigger: 'blur' },
+                        { pattern:/^[0-9]+$/, message: '检查组编码为必须为数字', trigger: 'blur'}
+                    ],
+                    name: [
+                        { required: true, message: '检查组名称为必填项', trigger: 'blur' },
+                        { min: 1, max: 15,message: '长度在 1 到 15 个字符', trigger: 'blur' },
+                        { pattern:/^[a-zA-Z0-9\u4e00-\u9fa5()（）]+$/, message: '只能输入汉字、数字、字母和括号', trigger: 'blur'}
+                    ]
+                }
             },
             created() {
                 this.findPage();
