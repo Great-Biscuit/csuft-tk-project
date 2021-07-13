@@ -5,9 +5,9 @@ import com.csuft.common.QueryPageBean;
 import com.csuft.entity.Order;
 
 public interface OrderService {
-    //public PageResult findPage(@RequestBody QueryPageBean queryPageBean);
+    PageResult findPage(QueryPageBean queryPageBean);
 
-    public void editOrder(Order order);
+    void editOrder(Order order);
 
-    public void delOrder(Integer id);
+    void delOrder(Integer id);
 }
