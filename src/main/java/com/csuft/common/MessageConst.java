@@ -82,13 +82,10 @@ public class MessageConst {
     public static final String QUERY_CHECKGROUP_CHECKITEM_ID_FAIL = "查询检查组关联的id失败";
     public static final String QUERY_SETMEAL_CHECKGROUP_ID_SUCCESS = "查询套餐关联的id成功";
     public static final String QUERY_SETMEAL_CHECKGROUP_ID_FIAL = "查询套餐关联的id失败";
-    public static final String DELETE_SETMEAL_SUCCESS="删除套餐数据成功";
-    public static final String DELETE_SETMEAL_FAIL="删除套餐数据失败";
-    public static final String QUERY_SETMEAL_ORDER_SUCCESS="查询套餐分类数据成功";
-    public static final String QUERY_SETMEAL_OREDER_FAIL="查询套餐分类数据失败";
-
-
-
+    public static final String DELETE_SETMEAL_SUCCESS = "删除套餐数据成功";
+    public static final String DELETE_SETMEAL_FAIL = "删除套餐数据失败";
+    public static final String QUERY_SETMEAL_ORDER_SUCCESS = "查询套餐分类数据成功";
+    public static final String QUERY_SETMEAL_OREDER_FAIL = "查询套餐分类数据失败";
 
 
     /**
@@ -111,11 +108,11 @@ public class MessageConst {
     /**
      * 默认状态登录凭证超时时间
      */
-    public static final int DEFAULT_EXPIRED_SECONDS = 3600 * 12;//12小时
+    public static final int DEFAULT_EXPIRED_SECONDS = 60 * 2; //2分钟
 
 
     /**
      * 记住我状态登录凭证超时时间
      */
-    public static final int REMEMBER_EXPIRED_SECONDS = 3600 * 24 * 100;//100天
+    public static final int REMEMBER_EXPIRED_SECONDS = 3600 * 12;//12小时
 }
