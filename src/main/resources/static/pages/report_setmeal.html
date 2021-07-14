@@ -75,6 +75,7 @@
             }]
         };
         myChart.setOption(option);
+        let color = [ 'red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'purple' ];
         axios.get(BACK_END + "/report/findSetmealCount").then(res=>{
             if(res.data.flag){
                 option.legend.data = res.data.data.setmealNames;
