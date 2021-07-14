@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.csuft.mapper.UserMapper">
+    <select id="selectByName" parameterType="string" resultType="User">
+        select *
+        from t_user
+        where username = #{username}
+    </select>
+
+    <insert id="insertUser" parameterType="User">
+        insert into t_user
+        values (null, #{birthday}, #{gender}, #{username}, #{password}, #{remark}, #{station}, #{telephone}, #{email})
+    </insert>
+
+    <select id="selectById" parameterType="int" resultType="User">
+        select *
+        from t_user
+        where id = #{id}
+    </select>
+
+    <update id="updateStation">
+        update t_user
+        set station = #{s}
+        where id = #{userId}
+    </update>
+
+    <update id="updatePassword">
+        update t_user
+        set password=#{newPassword}
+        where id = #{userId}
+    </update>
+
+</mapper>

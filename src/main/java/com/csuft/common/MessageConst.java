@@ -15,6 +15,8 @@ public class MessageConst {
     public static final String ADD_CHECKITEM_FAIL = "新增检查项失败";
     public static final String EDIT_CHECKITEM_FAIL = "编辑检查项失败";
     public static final String EDIT_CHECKITEM_SUCCESS = "编辑检查项成功";
+    public static final String EDIT_SETMEAL_FAIL = "编辑套餐失败";
+    public static final String EDIT_SETMEAL_SUCCESS = "编辑套餐成功";
     public static final String QUERY_CHECKITEM_SUCCESS = "查询检查项成功";
     public static final String QUERY_CHECKITEM_FAIL = "查询检查项失败";
     public static final String UPLOAD_SUCCESS = "上传成功";
@@ -36,6 +38,8 @@ public class MessageConst {
     public static final String GET_ORDERSETTING_FAIL = "获取预约设置数据失败";
     public static final String ORDERSETTING_SUCCESS = "预约设置成功";
     public static final String ORDERSETTING_FAIL = "预约设置失败";
+    public static final String QUERY_MEMBER_SUCCESS = "查询会员成功";
+    public static final String QUERY_MEMBER_FAIL = "查询会员失败";
     public static final String ADD_MEMBER_FAIL = "新增会员失败";
     public static final String ADD_MEMBER_SUCCESS = "新增会员成功";
     public static final String DELETE_MEMBER_FAIL = "删除会员失败";
@@ -44,9 +48,14 @@ public class MessageConst {
     public static final String EDIT_MEMBER_SUCCESS = "编辑会员成功";
     public static final String TELEPHONE_VALIDATECODE_NOTNULL = "手机号和验证码都不能为空";
     public static final String LOGIN_SUCCESS = "登录成功";
+    public static final String LOGIN_FAIL = "账号或密码错误";
     public static final String VALIDATECODE_ERROR = "验证码输入错误";
     public static final String QUERY_ORDER_SUCCESS = "查询预约信息成功";
     public static final String QUERY_ORDER_FAIL = "查询预约信息失败";
+    public static final String EDIT_ORDER_SUCCESS = "修改预约信息成功";
+    public static final String EDIT_ORDER_FAIL = "修改预约信息失败";
+    public static final String DELETE_ORDER_SUCCESS = "删除预约信息成功";
+    public static final String DELETE_ORDER_FAIL = "删除预约信息失败";
     public static final String QUERY_SETMEALLIST_SUCCESS = "查询套餐列表数据成功";
     public static final String QUERY_SETMEALLIST_FAIL = "查询套餐列表数据失败";
     public static final String QUERY_SETMEAL_SUCCESS = "查询套餐数据成功";
@@ -69,4 +78,41 @@ public class MessageConst {
     public static final String GET_BUSINESS_REPORT_FAIL = "获取运营统计数据失败";
     public static final String GET_SETMEAL_LIST_SUCCESS = "查询套餐列表数据成功";
     public static final String GET_SETMEAL_LIST_FAIL = "查询套餐列表数据失败";
+    public static final String QUERY_CHECKGROUP_CHECKITEM_ID_SUCCESS = "查询检查组关联的id成功";
+    public static final String QUERY_CHECKGROUP_CHECKITEM_ID_FAIL = "查询检查组关联的id失败";
+    public static final String QUERY_SETMEAL_CHECKGROUP_ID_SUCCESS = "查询套餐关联的id成功";
+    public static final String QUERY_SETMEAL_CHECKGROUP_ID_FIAL = "查询套餐关联的id失败";
+    public static final String DELETE_SETMEAL_SUCCESS = "删除套餐数据成功";
+    public static final String DELETE_SETMEAL_FAIL = "删除套餐数据失败";
+    public static final String QUERY_SETMEAL_ORDER_SUCCESS = "查询套餐分类数据成功";
+    public static final String QUERY_SETMEAL_OREDER_FAIL = "查询套餐分类数据失败";
+
+
+    /**
+     * 激活成功
+     */
+    public static final int ACTIVATION_SUCCESS = 0;
+
+    /**
+     * 重复激活
+     */
+    public static final int ACTIVATION_REPEAT = 1;
+
+    /**
+     * 激活失败
+     */
+    public static final int ACTIVATION_FAILURE = 2;
+
+    public static final String ACCOUNT_NOT_ACTIVATED = "账号未激活";
+
+    /**
+     * 默认状态登录凭证超时时间
+     */
+    public static final int DEFAULT_EXPIRED_SECONDS = 60 * 2; //2分钟
+
+
+    /**
+     * 记住我状态登录凭证超时时间
+     */
+    public static final int REMEMBER_EXPIRED_SECONDS = 3600 * 12;//12小时
 }

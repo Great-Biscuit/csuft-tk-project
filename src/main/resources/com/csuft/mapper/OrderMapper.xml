@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.csuft.mapper.OrderMapper">
+
+    <select id="findPage" parameterType="string" resultType="java.util.HashMap">
+        select t.id id,
+        tm.name name,
+        tm.phoneNumber phoneNumber,
+        t.orderDate orderDate,
+        t.orderType orderType,
+        t.orderStatus orderStatus,
+        ts.name setmealName,
+        ts.id setmealId
+        from t_member tm
+        inner join t_order t on tm.id = t.member_id
+        inner join t_setmeal ts on t.setmeal_id = ts.id
+        <if test="queryString !=null and queryString.length>0">
+            where tm.name like CONCAT('%',#{queryString},'%')
+        </if>
+    </select>
+
+    <update id="editOrder" parameterType="Order">
+        update t_order
+        set orderDate=#{orderDate},
+            orderType=#{orderType},
+            orderStatus=#{orderStatus},
+            setmeal_id=#{setmealId}
+        where id = #{id}
+    </update>
+    <delete id="delOrder" parameterType="int">
+        delete
+        from t_order
+        where id = #{id}
+    </delete>
+</mapper>

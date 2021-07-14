@@ -17,6 +17,7 @@
         <script src="../plugins/element-ui/lib/index.js"></script>
         <script type="text/javascript" src="../js/jquery.min.js"></script>
         <script src="../js/axios-0.18.0.js"></script>
+        <script src="../js/common.js"></script>
         <style>
             .datatable {
                 position: relative;
@@ -54,7 +55,7 @@
             <div class="app-container">
                 <div class="box">
                     <div class="filter-container">
-                        <el-input placeholder="编码/名称/助记码" v-model="pagination.queryString" style="width: 200px;" class="filter-item" @keyup.enter.native="handleFilter"></el-input>
+                        <el-input placeholder="编码/名称/助记码" v-model="pagination.queryString" style="width: 200px;" class="filter-item" @keyup.enter.native="handleFilter" clearable></el-input>
                         <el-button @click="findPage()" class="dalfBut">查询</el-button>
                         <el-button type="primary" class="butT" @click="handleCreate()">新建</el-button>
                     </div>
@@ -92,15 +93,15 @@
                             <template>
                                 <el-tabs v-model="activeName" type="card">
                                     <el-tab-pane label="基本信息" name="first">
-                                        <el-form label-position="right" label-width="100px">
+                                        <el-form ref="dataAddForm" :model="formData" :rules="rules" label-position="right" label-width="100px">
                                             <el-row>
                                                 <el-col :span="12">
-                                                    <el-form-item label="编码">
+                                                    <el-form-item label="检查组编码" prop="code">
                                                         <el-input v-model="formData.code"/>
                                                     </el-form-item>
                                                 </el-col>
                                                 <el-col :span="12">
-                                                    <el-form-item label="名称">
+                                                    <el-form-item label="检查组名称" prop="name">
                                                         <el-input v-model="formData.name"/>
                                                     </el-form-item>
                                                 </el-col>
@@ -176,15 +177,15 @@
                             <template>
                                 <el-tabs v-model="activeName" type="card">
                                     <el-tab-pane label="基本信息" name="first">
-                                        <el-form label-position="right" label-width="100px">
+                                        <el-form ref="dataAddForm" :model="formData" :rules="rules" label-position="right" label-width="100px">
                                             <el-row>
                                                 <el-col :span="12">
-                                                    <el-form-item label="编码">
+                                                    <el-form-item label="检查组编码" prop="code">
                                                         <el-input v-model="formData.code"/>
                                                     </el-form-item>
                                                 </el-col>
                                                 <el-col :span="12">
-                                                    <el-form-item label="名称">
+                                                    <el-form-item label="检查组名称" prop="name">
                                                         <el-input v-model="formData.name"/>
                                                     </el-form-item>
                                                 </el-col>
@@ -269,25 +270,56 @@
                     total:100,
                     queryString:null,
                 },
-                backend_url:"http://127.0.0.1:8080",
                 dataList: [],//列表数据
                 formData: {},//表单数据
                 tableData:[],//新增和编辑表单中对应的检查项列表数据
                 checkitemIds:[],//新增和编辑表单中检查项对应的复选框，基于双向绑定可以进行回显和数据提交
                 dialogFormVisible: false,//控制添加窗口显示/隐藏
-                dialogFormVisible4Edit:false//控制编辑窗口显示/隐藏
+                dialogFormVisible4Edit:false,//控制编辑窗口显示/隐藏
+
+                rules:{//新增检查组校验规则 1-13-15:48 lmz
+                    code: [
+                        { required: true, message: '检查组编码为必填项', trigger: 'blur' },
+                        { min: 1, max: 5,message: '长度在 1 到 5 个字符', trigger: 'blur' },
+                        { pattern:/^[0-9]+$/, message: '检查组编码为必须为数字', trigger: 'blur'}
+                    ],
+                    name: [
+                        { required: true, message: '检查组名称为必填项', trigger: 'blur' },
+                        { min: 1, max: 15,message: '长度在 1 到 15 个字符', trigger: 'blur' },
+                        { pattern:/^[a-zA-Z0-9\u4e00-\u9fa5()（）]+$/, message: '只能输入汉字、数字、字母和括号', trigger: 'blur'}
+                    ]
+                }
             },
             created() {
                 this.findPage();
             },
+            watch: {
+                "pagination.queryString": {
+                    handler(val, oldVal) {
+                        if (oldVal && !val)  {
+                            this.findPage();
+                        }
+                    }
+                }
+            },
             methods: {
                 //编辑
                 handleEdit() {
+                    axios.post(BACK_END+"/checkGroup/editCheckGroup?checkitemIds="+this.checkitemIds,this.formData).then(res=>{
+                        if(res.data.flag){
+                            this.$message.success(res.data.message);
+                        } else{
+                            this.$message.error(res.data.message);
+                        }
 
+                    }).finally(()=>{
+                        this.dialogFormVisible4Edit = false;
+                        this.findPage();
+                    });
                 },
                 //添加
                 handleAdd () {
-                    axios.post(this.backend_url+'/checkGroup/addCheckGroup?checkitemIds='+this.checkitemIds, this.formData).then(res => {
+                    axios.post(BACK_END +'/checkGroup/addCheckGroup?checkitemIds='+this.checkitemIds, this.formData).then(res => {
                         if (res && res.data && res.data.flag) {
                             this.$message.success(res.data.message);
                         } else {
@@ -305,7 +337,7 @@
                         pageSize: this.pagination.pageSize,
                         queryString: this.pagination.queryString
                     }
-                    axios.post(this.backend_url+'/checkGroup/findPage', params).then(res => {
+                    axios.post(BACK_END +'/checkGroup/findPage', params).then(res => {
                         if (res && res.data) {
                             this.dataList = res.data.rows;
                             this.pagination.total = res.data.total;
@@ -314,18 +346,17 @@
                 },
                 // 重置表单
                 resetForm() {
-
+                    if( this.$refs[formName] != null){
+                        this.$refs[formName].resetFields();
+                    }
                 },
                 // 弹出添加窗口
                 handleCreate() {
                     this.formData = {};
                     this.checkitemIds = [];
-                    //切换到第一个标签
                     this.activeName = "first";
-                    //新增窗口可见
                     this.dialogFormVisible = true;
-                    //发送请求,获取检查项列表,处理返回数据
-                    axios.get(this.backend_url + '/checkItem/findList').then(res => {
+                    axios.get(BACK_END + '/checkItem/findList').then(res => {
                         if (res && res.data) {
                             this.tableData = res.data.data;
                         }
@@ -334,7 +365,27 @@
                 // 弹出编辑窗口
                 handleUpdate(row) {
                     //发送请求,根据ID获取检查组数据
+                    axios(BACK_END+"/checkGroup/findCheckGroup?id="+row.id).then(res=>{
+                        if(res.data.flag){
 
+                            this.formData  = res.data.data;
+                            this.dialogFormVisible4Edit = true;
+                            axios.get(BACK_END+"/checkItem/findList").then(res=>{
+                                if(res.data.flag){
+                                    this.tableData = res.data.data;
+                                    axios.get(BACK_END+"/checkGroup/findCheckItemId?id="+row.id).then(res=>{
+                                        if(res.data.flag){
+                                            this.checkitemIds = res.data.data;
+                                        }
+                                    });
+                                }else{
+                                    this.$message.error(res.data.message);
+                                }
+                            });
+                        }else{
+                            this.$message.error(res.data.message);
+                        }
+                    });
                 },
                 //切换页码
                 handleCurrentChange(currentPage) {
@@ -344,6 +395,17 @@
                 },
                 // 删除
                 handleDelete(row) {
+                    this.$confirm('确定删除此数据吗?','提示',{type:"warning"}).then(()=>{
+                        axios.get(BACK_END+"/checkGroup/delCheckGroup?id="+row.id).then(res=>{
+                            if(res.data.flag){
+                                this.$message.success(res.data.message);
+                            }else{
+                                this.$message.error(res.data.message);
+                            }
+                        }).finally(()=>{
+                            this.findPage();
+                        });
+                    })
                 }
             }
         })

@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+	<link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+		  rel="stylesheet">
+	<title>操作结果</title>
+</head>
+<body class="bg-white">
+<div class="nk-container">
+	<!-- 内容 -->
+	<div class="main">
+		<div class="container mt-5">
+			<div class="jumbotron">
+				<p class="lead">我们给您发送了一封邮件，请前往邮箱点击链接激活您的账号!</p>
+				<hr class="my-4">
+				<p>
+					系统会在 <span class="text-danger" id="seconds">8</span> 秒后自动跳转,
+					您也可以点此 <a class="text-primary" id="target" href="./login.html">链接</a>, 手动跳转!
+				</p>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script crossorigin="anonymous" src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.js"></script>
+<script crossorigin="anonymous"
+		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script crossorigin="anonymous" src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script>
+	$(function () {
+		setInterval(function () {
+			var seconds = $("#seconds").text();
+			$("#seconds").text(--seconds);
+			if (seconds == 0) {
+				location.href = $("#target").attr("href");
+			}
+		}, 1000);
+	});
+</script>
+</body>
+</html>

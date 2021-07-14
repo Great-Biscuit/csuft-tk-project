@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- 页面meta -->
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>天康预约</title>
+        <meta name="description" content="天康预约">
+        <meta name="keywords" content="天康预约">
+        <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
+        <!-- 引入样式 -->
+        <link rel="stylesheet" href="../plugins/element-ui/lib/theme-chalk/index.css">
+        <link rel="stylesheet" href="../plugins/font-awesome/css/font-awesome.min.css">
+        <link rel="stylesheet" href="../css/style.css">
+    </head>
+    <body class="hold-transition">
+        <div id="app">
+            <div class="content-header">
+                <h1>统计分析<small>套餐预约占比</small></h1>
+                <el-breadcrumb separator-class="el-icon-arrow-right" class="breadcrumb">
+                    <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+                    <el-breadcrumb-item>统计分析</el-breadcrumb-item>
+                    <el-breadcrumb-item>套餐预约占比</el-breadcrumb-item>
+                </el-breadcrumb>
+            </div>
+            <div class="app-container">
+                <div class="box">
+                    <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
+                    <div id="chart1" style="height:600px;"></div>
+                </div>
+            </div>
+        </div>
+    </body>
+    <!-- 引入组件库 -->
+    <script src="../js/vue.js"></script>
+    <script src="../plugins/element-ui/lib/index.js"></script>
+    <script src="../js/jquery.min.js"></script>
+    <script src="../js/axios-0.18.0.js"></script>
+    <script src="../js/echarts.js"></script>
+    <script src="../js/common.js"></script>
+    <script type="text/javascript">
+        //初始化echarts实例，要使用到区域的div
+        var myChart =  echarts.init(document.getElementById("chart1"));
+        //定义一个option的设置
+        var option ={
+            title:{
+                text:'套餐预约占比',
+                left:'center'
+            },
+            //提示框的组件
+            tooltip:{
+                trigger:'item',
+                formatter:'{a} <br/>{b} : {c} ({d}%)'
+            },
+            legend: {
+                orient:'vertical',
+                left: 'left',
+                data:["套餐1","套餐2","套餐3"]
+            },
+            series:[{
+                name:'套餐预约占比',
+                type:'pie',
+                radius: '55%',
+                center: ['50%', '60%'],
+                data:[{"name":"套餐1","value":10},
+                    {"name":"套餐2","value":30},
+                    {"name":"套餐3","value":25}],
+                emphasis: {
+                    itemStyle: {
+                        shadowBlur: 10,
+                        shadowOffsetX: 0,
+                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+                    }
+                }
+            }]
+        };
+        myChart.setOption(option);
+        let color = [ 'red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'purple' ];
+        axios.get(BACK_END + "/report/findSetmealCount").then(res=>{
+            if(res.data.flag){
+                option.legend.data = res.data.data.setmealNames;
+                option.series[0].data = res.data.data.setmealCount;
+                myChart.clear();
+                myChart.setOption(option);
+            }
+        });
+    </script>
+</html>

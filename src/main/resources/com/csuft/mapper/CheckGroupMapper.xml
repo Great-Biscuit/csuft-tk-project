@@ -4,6 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.csuft.mapper.CheckGroupMapper">
+
     <select id="findPage" parameterType="string" resultType="checkGroup">
         select * from t_checkGroup
         <if test="queryString != null and queryString.length !=0">
@@ -16,7 +17,38 @@
             select LAST_INSERT_ID()
         </selectKey>
     </insert>
-    <insert id="addCheckgroupIdAndCheckitemId" parameterType="map">
+    <insert id="addCheckGroupIdAndCheckItemId" parameterType="map">
         insert into t_checkgroup_checkitem values (#{checkgroup_id}, #{checkitem_id});
     </insert>
+
+    <!--检查组列表数据查询(不带分页)-->
+    <select id="findList" resultType="checkGroup">
+        select *  from t_checkgroup
+    </select>
+
+    <!--查询中间表的记录-->
+    <select id="findCheckGroupCount" parameterType="int" resultType="Long">
+        select count(checkgroup_id) from t_checkgroup_checkitem where checkgroup_id =#{id}
+    </select>
+    <!--删除检查组数据-->
+    <delete id="delCheckGroup" parameterType="int">
+        delete from t_checkgroup where id =#{id}
+    </delete>
+    <!--查询单个检查组的数据-->
+    <select id="findCheckGroup" parameterType="int" resultType="checkGroup">
+        select * from t_checkgroup where id = #{id}
+    </select>
+    <!--查询关联的检查项id-->
+    <select id="findCheckItemId" resultType="int">
+        select checkitem_id from t_checkgroup_checkitem where checkgroup_id = #{id}
+    </select>
+    <!--修改检查组的数据-->
+    <update id="editCheckGroup" parameterType="checkItem">
+        update t_checkgroup set code = #{code},name = #{name},helpCode = #{helpCode},sex= #{sex},remark = #{remark},attention = #{attention}
+        where id = #{id}
+    </update>
+    <!--删除中间表的关联关系-->
+    <delete id="delCheckGroupAndCheckItem" parameterType="int">
+        delete from t_checkgroup_checkitem where checkgroup_id = #{id}
+    </delete>
 </mapper>

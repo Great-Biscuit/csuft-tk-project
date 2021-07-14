@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- 页面meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>天康预约</title>
+    <meta name="description" content="天康预约">
+    <meta name="keywords" content="天康预约">
+    <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="../plugins/element-ui/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="../plugins/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body class="hold-transition">
+<div id="app">
+    <div class="content-header">
+        <h1>预约管理<small>预约列表</small></h1>
+        <el-breadcrumb separator-class="el-icon-arrow-right" class="breadcrumb">
+            <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+            <el-breadcrumb-item>预约管理</el-breadcrumb-item>
+            <el-breadcrumb-item>预约列表</el-breadcrumb-item>
+        </el-breadcrumb>
+    </div>
+    <div class="app-container">
+        <div class="box">
+            <div class="filter-container">
+                <el-input placeholder="请输入会员姓名" v-model="pagination.queryString" style="width: 200px;" class="filter-item" clearable></el-input>
+                <el-button @click="findPageByCondition()" class="dalfBut">查询</el-button>
+            </div>
+            <el-table size="small" current-row-key="id" :data="dataList" stripe highlight-current-row>
+                <el-table-column type="index" align="center" label="序号"></el-table-column>
+                <el-table-column prop="name" label="会员名字" align="center"></el-table-column>
+                <el-table-column prop="phoneNumber" label="会员电话号码" align="center"></el-table-column>
+                <el-table-column prop="orderDate" label="预约日期" align="center"></el-table-column>
+                <el-table-column prop="orderType" label="预约类型" align="center"></el-table-column>
+                <el-table-column prop="orderStatus" label="预约状态" align="center"></el-table-column>
+                <el-table-column prop="setmealName" label="体检套餐" align="center"></el-table-column>
+                <el-table-column label="操作" align="center">
+                    <template slot-scope="scope">
+                        <el-button type="primary" size="mini" @click="handleUpdate(scope.row)">编辑</el-button>
+                        <el-button size="mini" type="danger" @click="handleDelete(scope.row)">删除</el-button>
+                    </template>
+                </el-table-column>
+            </el-table>
+            <div class="pagination-container">
+                <el-pagination
+                        class="pagiantion"
+                        @current-change="handleCurrentChange"
+                        :current-page="pagination.currentPage"
+                        :page-size="pagination.pageSize"
+                        layout="total, prev, pager, next, jumper"
+                        :total="pagination.total">
+                </el-pagination>
+            </div>
+
+            <!-- 编辑标签弹层 -->
+            <div class="add-form">
+                <el-dialog title="编辑预约信息" :visible.sync="dialogFormVisible4Edit">
+                    <el-form ref="dataEditForm" :model="formData" label-position="right" label-width="100px">
+                        <el-row>
+                            <el-col :span="12">
+                                <el-form-item label="会员名字" prop="name">
+                                    <el-input v-model="formData.name" :disabled="true" />
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="12">
+                                <el-form-item label="预约日期" prop="orderDate">
+                                    <el-date-picker
+                                            v-model="formData.orderDate"
+                                            type="date"
+                                            placeholder="请选择预约日期">
+                                    </el-date-picker>
+                                </el-form-item>
+                            </el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col :span="12">
+                                <el-form-item label="预约状态">
+                                    <el-select v-model="formData.orderStatus">
+                                        <el-option label="已到诊" value="已到诊"></el-option>
+                                        <el-option label="未到诊" value="未到诊"></el-option>
+                                    </el-select>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="12">
+                                <el-form-item label="体检套餐">
+                                    <el-select v-model="formData.setmealId" filterable placeholder="请选择">
+                                        <el-option
+                                                v-for="item in setMealOptions"
+                                                :key="item.id"
+                                                :label="item.name"
+                                                :value="item.id">
+                                        </el-option>
+                                    </el-select>
+                                </el-form-item>
+                            </el-col>
+                        </el-row>
+                    </el-form>
+                    <div slot="footer" class="dialog-footer">
+                        <el-button @click="dialogFormVisible4Edit = false">取消</el-button>
+                        <el-button type="primary" @click="handleEdit()">确定</el-button>
+                    </div>
+                </el-dialog>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<!-- 引入组件库 -->
+<script src="../js/vue.js"></script>
+<script src="../plugins/element-ui/lib/index.js"></script>
+<script type="text/javascript" src="../js/jquery.min.js"></script>
+<script src="../js/axios-0.18.0.js"></script>
+<script src="../js/common.js"></script>
+<script>
+    var vue = new Vue({
+        el: '#app',
+        data:{
+            pagination: {//分页相关模型数据
+                currentPage: 1,//当前页码
+                pageSize:10,//每页显示的记录数
+                total:0,//总记录数
+                queryString:null//查询条件
+            },
+            setMealOptions: [],
+            dataList: [],//当前页要展示的分页列表数据
+            formData: {},//表单数据
+            dialogFormVisible4Edit:false,//编辑表单是否可见
+        },
+        //钩子函数，VUE对象初始化完成后自动执行
+        created() {
+            this.findPage();
+        },
+        watch: {
+            "pagination.queryString": {
+                handler(val, oldVal) {
+                    if (oldVal && !val)  {
+                        this.findPage();
+                    }
+                }
+            }
+        },
+        methods: {
+            //编辑
+            handleEdit() {
+                this.$refs['dataEditForm'].validate(valid => {
+                    if (valid) {
+                        axios.post(BACK_END +'/Order/editOrder', { ...this.formData, orderDate: this.getNowFormatDay(this.formData.orderDate) }).then(res => {
+                            if (res && res.data && res.data.flag) {
+                                this.$message.success(res.data.message);
+                            } else {
+                                this.$message.error(res.data.message);
+                            }
+                        }).finally(() => {
+                            this.dialogFormVisible4Edit = false;
+                            this.findPage();
+                        })
+                    } else {
+                        this.$message.error("请输入必填项！");
+                    }
+                })
+            },
+            getNowFormatDay(time) {
+                let char = "-";
+                if (!time) {
+                    nowDate = new Date();
+                } else {
+                    nowDate = new Date(time);
+                }
+                let day = nowDate.getDate();
+                let month = nowDate.getMonth() + 1;//注意月份需要+1
+                let year = nowDate.getFullYear();
+                let res = year + char + (month < 10 ? "0"+month:month) + char + (day < 10 ? "0"+day:day);
+                return res;
+            },
+
+            findPageByCondition(){
+                this.pagination.currentPage = 1;
+                this.findPage();
+            },
+            //分页查询
+            findPage() {
+                let params = {
+                    currentPage: this.pagination.currentPage,
+                    pageSize: this.pagination.pageSize,
+                    queryString: this.pagination.queryString
+                }
+                axios.post(BACK_END + '/Order/findPage', params).then(res => {
+                    if (res && res.data) {
+                        this.dataList = res.data.rows;
+                        this.pagination.total = res.data.total;
+                    }
+                })
+            },
+
+            // 弹出编辑窗口
+            handleUpdate(row) {
+                this.dialogFormVisible4Edit = true;
+                this.dataList.forEach(res => {
+                    if (res.id === row.id) {
+                        this.formData = res;
+                    }
+                })
+                axios.get(BACK_END + '/setmeal/findList').then(res => {
+                    if (res && res.data && res.data.flag) {
+                        this.setMealOptions = res.data.data;
+                    } else {
+                        this.$message.error(res.data.message);
+                    }
+                })
+            },
+            //切换页码
+            handleCurrentChange(currentPage) {
+                this.pagination.currentPage = currentPage;
+                this.findPage();
+            },
+            // 删除
+            handleDelete(row) {
+                this.$confirm("请确定是否要删除？", "提示框", {type:"warn"}).then(() => {
+                    axios.get(BACK_END +'/Order/delOrder?id='+row.id).then(res => {
+                        if (res && res.data && res.data.flag) {
+                            this.$message.success(res.data.message);
+                        } else {
+                            this.$message.error(res.data.message);
+                        }
+                    }).finally(() => {
+                        this.findPage();
+                    })
+                }).catch(() => {})
+            }
+        }
+
+    })
+</script>
+</html>
