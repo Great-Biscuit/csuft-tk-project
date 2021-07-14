@@ -23,7 +23,7 @@
         padding: 0;
     }
         .navbar, .navbar-static-top, .main-header {
-            background: #51d0fe !important;
+            background: #409eff !important;
         }
     </style>
 </head>
@@ -39,9 +39,9 @@
                     <div class="right-menu">
 <!--                        <span class="help"><i class="fa fa-exclamation-circle" aria-hidden="true"></i>帮助</span>-->
                         <el-dropdown class="avatar-container right-menu-item" trigger="click">
-                            <div class="avatar-wrapper" style="font-weight: bold">
+                            <div class="avatar-wrapper" style="font-weight: bold;font-size: 18px;">
                                 <img src="../img/my_avatar.jpg" class="user-avatar">
-                                {{username}}
+                                <span style="margin-top: 2px;">{{username}}</span>
                             </div>
                             <el-dropdown-menu slot="dropdown">
                                 <el-dropdown-item divided>

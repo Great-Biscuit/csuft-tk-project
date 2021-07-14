@@ -503,7 +503,7 @@ label input[type="radio"]:checked {
 	position: relative;
 	border-radius: 3px;
 	background: #ffffff;
-	border-top: 3px solid #3c8dbc;
+	/*border-top: 3px solid #3c8dbc;*/
 	padding: 10px;
 	margin-bottom: 20px;
 	width: 100%;
